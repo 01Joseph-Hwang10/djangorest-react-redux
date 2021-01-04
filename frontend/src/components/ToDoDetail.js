@@ -1,9 +1,8 @@
 import React from 'react';
 import axios from 'axios';
 import ToDoCard from './ToDoCard';
-import { Link } from 'react-router-dom';
 
-class ToDoLists extends React.Component {
+class ToDoDetail extends React.Component {
     state = {
         isLoading: true,
         toDos: []
@@ -51,4 +50,4 @@ class ToDoLists extends React.Component {
     }
 }
 
-export default ToDoLists;
+export default ToDoDetail;
