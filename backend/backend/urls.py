@@ -19,7 +19,7 @@ from django.urls.conf import include
 
 
 urlpatterns = [
-    path('backend/', include("core.urls", namespace="core")),
+    path('', include("core.urls", namespace="core")),
     path('backend/admin/', admin.site.urls),
     path('backend/users-api/', include("users.urls", namespace="users")),
     path('backend/todos-api/', include("todos.urls", namespace="todos")),
