@@ -31,12 +31,16 @@ class ToDoLists extends React.Component {
                                         to={{
                                             pathname: `/${toDo.id}`,
                                             state: {
-                                                id: toDo.id
+                                                key: toDo.id,
+                                                id: toDo.id,
+                                                todos_name: toDo.todos_name,
+                                                todos_important: toDo.todos_important
                                             }
                                         }}>
                                         <ToDoCard
                                             key={toDo.id}
                                             id={toDo.id}
+                                            created_username={toDo.created_username}
                                             todos_name={toDo.todos_name}
                                             todos_important={toDo.todos_important}
                                         />

@@ -6,15 +6,18 @@ from users import models as user_model
 
 class ToDoContainerSerializer(HyperlinkedModelSerializer):
     created_by = ReadOnlyField(source='created_by.id')
+    created_username = ReadOnlyField(source="created_by.username")
 
     class Meta:
         model = todo_model.ToDoContainer
         fields = (
             'url', 'id',
             'created_by',
+            'created_username',
             'todos_name',
             'todos_important',
             'todos_items_count',
+            'get_todo_items',
         )
         extra_kwargs = {
             'url': {
@@ -34,6 +37,7 @@ class ToDoSerializer(HyperlinkedModelSerializer):
             'to_do_name',
             'to_do_description',
             'to_do_order',
+            'to_do_completed'
         )
         extra_kwargs = {
             'url': {
