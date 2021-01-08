@@ -2,8 +2,6 @@ import React from 'react';
 import axios from 'axios';
 import ToDoItem from './ToDoItem';
 import { Link } from 'react-router-dom';
-import CSRFToken from '../csrftoken';
-import request, { post } from 'request';
 
 class ToDoDetail extends React.Component {
     state = {
@@ -32,41 +30,55 @@ class ToDoDetail extends React.Component {
     componentDidMount() {
         this.getToDoItems();
     }
-    componentDidUpdate() {
-        this.getToDoItems();
-    }
     render() {
+        // const updateList = () => {
+        //     this.getToDoItems();
+        // };
         const { isLoading, toDoItems, headElements } = this.state;
-        const postToDo = (e) => {
+        const postToDo = async (e) => {
             e.preventDefault();
-            const to_do_name = document.getElementById("toDo").value,
-                to_do_description = document.getElementById("desc").value,
-                order = document.getElementById("order").value
+            const to_do_name = document.getElementById("toDo"),
+                to_do_description = document.getElementById("desc"),
+                order = document.getElementById("order")
             let post_data;
-            if (to_do_name) {
+            if (to_do_name.value) {
                 const to_do_belongs=window.location.hash.slice(2);
                 let newOrder;
-                if (!order) {
+                if (!order.value) {
                     newOrder=toDoItems.length+1;
                 } else {
-                    newOrder=order;
+                    newOrder=order.value;
                 }
 
                 post_data={
                     to_do_belongs:to_do_belongs,
-                    to_do_name:to_do_name,
-                    to_do_description:to_do_description,
+                    to_do_name:to_do_name.value,
+                    to_do_description:to_do_description.value,
                     to_do_order:newOrder
                     };
+
                 console.log(post_data);
+
+                const checkResponse = (response) => {
+                    while (!response) {
+                        if (response) {
+                            break;
+                        }
+                    }
+                    this.getToDoItems();
+                }
+
                 axios
                 .post("/backend/todos-api/todo/",post_data)
-                .then(response => (this.info = response.data))
+                .then(response => checkResponse(response))
                 .catch(error => console.log(error));
+
+                to_do_name.value="";
+                to_do_description.value="";
+                order.value="";
 
             } else {
                 alert("To-Do is required!");
-
             }
         }
 
@@ -100,6 +112,7 @@ class ToDoDetail extends React.Component {
                                             to_do_description={toDoItem.to_do_description}
                                             to_do_completed={toDoItem.to_do_completed}
                                             to_do_order={toDoItem.to_do_order}
+                                            getToDoItems={this.getToDoItems}
                                         />
                                     )
                                 })
