@@ -1,18 +1,22 @@
 import React from 'react';
 import axios from 'axios';
 import ToDoItem from './ToDoItem';
+import { Link } from 'react-router-dom';
 
 class ToDoDetail extends React.Component {
     state = {
         isLoading: true,
-        toDoItems: []
     };
     getToDoItems = async () => {
         const { location } = this.props;
-        const { data } = await axios.get(`/backend/todos-api/todo_container/${location.state.id}.json`);
-        // let sortedToDoItems = JSON.parse(data.get_todo_items);
-        console.log(data.get_todo_items)
-        this.setState({ toDoItems: data.get_todo_items, isLoading: false });
+        if (location.state) {
+            const { data } = await axios.get(`/backend/todos-api/todo_container/${location.state.id}.json`);
+            this.setState({ toDoItems: data.get_todo_items, isLoading: false });
+        }
+        else {
+            const { data } = await axios.get(`/backend/todos-api/todo_container/${window.location.hash.slice(2)}.json`);
+            this.setState({ toDoItems: data.get_todo_items, isLoading: false });
+        }
     }
     componentDidMount() {
         this.getToDoItems();
@@ -27,12 +31,13 @@ class ToDoDetail extends React.Component {
                 </div>
             ) : (
                     <div className="w-full">
-                        <div className="toDoDetailHeader w-full border-b-2 border-black p-3 flex justify-between">
-                            <h1>{location.state.todos_name}</h1>
-                            <h1>{location.state.todos_important.toString()}</h1>
+                        <div className="toDoDetailHeader w-full border-b-2 border-black p-3 flex justify-center">
+                            <div className="w-1/3 text-left"><Link to='/'>Back to Main</Link></div>
+                            <div className="w-1/3"><h1 className="text-center font-semibold text-2xl">{location.state.todos_name}</h1></div>
+                            <div className="w-1/3"><h1 className="text-right">{location.state.todos_important.toString()}</h1></div>
                         </div>
                         <div className="toDoDetailBody w-full">
-                        <div className="toDoDetailHeader w-full border-b-2 border-black p-3 grid grid-cols-5">
+                        <div className="toDoDetailHeader w-full border-b-2 border-gray-400 p-3 grid grid-cols-5">
                             <h1 className="text-center">To-Do</h1>
                             <h1 className="text-center">Description</h1>
                             <h1 className="text-center">Completed?</h1>
@@ -54,12 +59,12 @@ class ToDoDetail extends React.Component {
                                 })
                             }
                             <div className="createToDo">
-                                <form action="#" method="POST" className="grid grid-cols-5">
+                                <form action="#" method="POST" className="grid grid-cols-5 p-3">
                                     <input className="text-center" placeholder="To-Do"></input>
                                     <input className="text-center" placeholder="description"></input>
                                     <span className="text-center">false</span>
                                     <input className="text-center" placeholder="Order"></input>
-                                    <button className="font-bold text-center w-full bg-gray-400 rounded-lg">Add</button>
+                                    <button className="font-bold text-center w-11/12 mx-auto bg-gray-400 rounded-lg text-white">Add</button>
                                 </form>
                             </div>
                         </div>
