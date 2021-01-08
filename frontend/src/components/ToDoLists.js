@@ -24,6 +24,10 @@ class ToDoLists extends React.Component {
                 </div>
             ) : (
                     <div className="toDos w-full">
+                        <div className="toDoDetailHeader w-full border-b-2 border-black p-3 flex justify-between">
+                            <h1>To-Do</h1>
+                            <h1>Made by</h1>
+                        </div>
                         {
                             toDos.map(toDo => {
                                 return (

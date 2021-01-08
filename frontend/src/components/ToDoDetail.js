@@ -32,6 +32,13 @@ class ToDoDetail extends React.Component {
                             <h1>{location.state.todos_important.toString()}</h1>
                         </div>
                         <div className="toDoDetailBody w-full">
+                        <div className="toDoDetailHeader w-full border-b-2 border-black p-3 grid grid-cols-5">
+                            <h1 className="text-center">To-Do</h1>
+                            <h1 className="text-center">Description</h1>
+                            <h1 className="text-center">Completed?</h1>
+                            <h1 className="text-center">Order</h1>
+                            <h1 className="text-center">Manage</h1>
+                        </div>
                             {
                                 toDoItems.map(toDoItem => {
                                     return (
@@ -47,11 +54,13 @@ class ToDoDetail extends React.Component {
                                 })
                             }
                             <div className="createToDo">
-                                <form action="#" method="POST">
-                                    <input placeholder="To-Do"></input>
-                                    <input placeholder="description"></input>
+                                <form action="#" method="POST" className="grid grid-cols-5">
+                                    <input className="text-center" placeholder="To-Do"></input>
+                                    <input className="text-center" placeholder="description"></input>
+                                    <span className="text-center">false</span>
+                                    <input className="text-center" placeholder="Order"></input>
+                                    <button className="font-bold text-center w-full bg-gray-400 rounded-lg">Add</button>
                                 </form>
-                                <button>Create New ToDo</button>
                             </div>
                         </div>
                     </div>
