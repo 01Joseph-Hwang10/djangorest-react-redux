@@ -1,10 +1,22 @@
-from rest_framework import viewsets
+import datetime
+from rest_framework import viewsets, generics
 from rest_framework import permissions, viewsets, response
 from . import models
 from .serializers import ToDoSerializer, ToDoContainerSerializer
 
 
-class TodoViewSet(viewsets.ModelViewSet):
+# class ToDoCAPIView(generics.ListCreateAPIView):
+
+#     queryset = models.ToDo.objects.all()
+#     serializer_class = ToDoSerializer
+
+# class ToDoRUDAPIView(generics.RetrieveUpdateDestroyAPIView):
+    
+#     queryset = models.ToDo.objects.all()
+#     serializer_class = ToDoSerializer
+
+
+class ToDoViewSet(viewsets.ModelViewSet):
     """
     API endpoint that allows Todos to be viewed or edited.
     """
@@ -20,7 +32,19 @@ class TodoViewSet(viewsets.ModelViewSet):
         to_do_description=post_data['to_do_description']
         to_do_completed=False
         to_do_order=post_data['to_do_order']
-        new_object =models.ToDo(id,to_do_belongs,to_do_name,to_do_description,to_do_completed,to_do_order)
+        created=datetime.datetime.now()
+        updated=created
+        print(created)
+        new_object =models.ToDo(
+            id,
+            created,
+            updated,
+            to_do_belongs,
+            to_do_name,
+            to_do_description,
+            to_do_completed,
+            to_do_order,
+            )
         print(new_object)
         new_object.save()
         return response.Response(data="Saved successfully")

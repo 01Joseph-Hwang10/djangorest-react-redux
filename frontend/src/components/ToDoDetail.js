@@ -32,9 +32,13 @@ class ToDoDetail extends React.Component {
     componentDidMount() {
         this.getToDoItems();
     }
+    componentDidUpdate() {
+        this.getToDoItems();
+    }
     render() {
         const { isLoading, toDoItems, headElements } = this.state;
         const postToDo = (e) => {
+            e.preventDefault();
             const to_do_name = document.getElementById("toDo").value,
                 to_do_description = document.getElementById("desc").value,
                 order = document.getElementById("order").value
@@ -52,7 +56,6 @@ class ToDoDetail extends React.Component {
                     to_do_belongs:to_do_belongs,
                     to_do_name:to_do_name,
                     to_do_description:to_do_description,
-                    to_do_completed:false,
                     to_do_order:newOrder
                     };
                 console.log(post_data);
@@ -63,8 +66,10 @@ class ToDoDetail extends React.Component {
 
             } else {
                 alert("To-Do is required!");
+
             }
         }
+
         return (<section className="container mx-auto">
             {isLoading ? (
                 <div className="loader">
@@ -99,12 +104,14 @@ class ToDoDetail extends React.Component {
                                     )
                                 })
                             }
-                            <div className="createToDo grid grid-cols-5 p-3">
+                            <div>
+                                <form action="/backend/todos-api/todo/" onSubmit={postToDo} method="POST" className="createToDo grid grid-cols-5 p-3">
                                     <input required type="text" className="text-center" placeholder="To-Do" name="to_do_name" id="toDo"></input>
-                                    <input type="text" className="text-center" placeholder="description" id="desc"></input>
+                                    <input type="text" className="text-center" placeholder="description" name="to_do_description" id="desc"></input>
                                     <span className="text-center">false</span>
-                                    <input type="number" className="text-center" placeholder="Order" id="order"></input>
-                                    <button className="font-bold text-center w-11/12 mx-auto bg-gray-400 rounded-lg text-white" onClick={postToDo}>Add</button>
+                                    <input type="number" className="text-center" placeholder="Order" name="to_do_order" id="order"></input>
+                                    <button className="font-bold text-center w-11/12 mx-auto bg-gray-400 rounded-lg text-white">Add</button>
+                                </form>
                             </div>
                         </div>
                     </div>
