@@ -11,6 +11,20 @@ class TodoViewSet(viewsets.ModelViewSet):
     queryset = models.ToDo.objects.all()
     serializer_class = ToDoSerializer
 
+    def create(self, request): # Here is the new update comes <<<<
+        post_data = request.data
+        print(post_data)
+        id=int(models.ToDo.objects.count()) + int(1)
+        to_do_belongs=post_data['to_do_belongs']
+        to_do_name=post_data['to_do_name']
+        to_do_description=post_data['to_do_description']
+        to_do_completed=False
+        to_do_order=post_data['to_do_order']
+        new_object =models.ToDo(id,to_do_belongs,to_do_name,to_do_description,to_do_completed,to_do_order)
+        print(new_object)
+        new_object.save()
+        return response.Response(data="Saved successfully")
+
 
 class ToDoContainerViewSet(viewsets.ModelViewSet):
     """

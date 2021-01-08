@@ -26,6 +26,7 @@ class ToDoContainerSerializer(HyperlinkedModelSerializer):
         }
 
 
+
 class ToDoSerializer(HyperlinkedModelSerializer):
     to_do_belongs = ReadOnlyField(source='to_do_belongs.id')
 
@@ -44,3 +45,4 @@ class ToDoSerializer(HyperlinkedModelSerializer):
                 'view_name': 'todos:todo-detail',
             },
         }
+

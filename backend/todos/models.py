@@ -48,13 +48,4 @@ class ToDo(TimeStampedModel):
     to_do_description = models.TextField(null=True, blank=True)
     to_do_completed = models.BooleanField(default=False)
     to_do_order = models.IntegerField(validators=[MinValueValidator(1), ])
-
-    def __str__(self):
-        suffix = "th"
-        if int(self.to_do_order) % 10 == 1:
-            suffix = "st"
-        elif int(self.to_do_order) % 10 == 2:
-            suffix = "nd"
-        elif int(self.to_do_order) % 10 == 3:
-            suffix = "rd"
-        return f"{self.to_do_name} - {self.to_do_order}{suffix}"
+    

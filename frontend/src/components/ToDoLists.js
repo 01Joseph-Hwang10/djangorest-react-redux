@@ -6,7 +6,6 @@ import { Link } from 'react-router-dom';
 class ToDoLists extends React.Component {
     state = {
         isLoading: true,
-        toDos: []
     };
     getToDos = async () => {
         const { data } = await axios.get("/backend/todos-api/todo_container.json");

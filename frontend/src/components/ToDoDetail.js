@@ -2,6 +2,8 @@ import React from 'react';
 import axios from 'axios';
 import ToDoItem from './ToDoItem';
 import { Link } from 'react-router-dom';
+import CSRFToken from '../csrftoken';
+import request, { post } from 'request';
 
 class ToDoDetail extends React.Component {
     state = {
@@ -9,21 +11,60 @@ class ToDoDetail extends React.Component {
     };
     getToDoItems = async () => {
         const { location } = this.props;
+        const sortByOrder = (a,b) => {
+            if (a.to_do_order < b.to_do_order) {
+                return -1;
+            }
+            if (a.to_do_order > b.to_do_order) {
+                return 1;
+            }
+            return 0;
+        };
         if (location.state) {
             const { data } = await axios.get(`/backend/todos-api/todo_container/${location.state.id}.json`);
-            this.setState({ toDoItems: data.get_todo_items, isLoading: false });
+            this.setState({ toDoItems: data.get_todo_items.sort(sortByOrder), isLoading: false, headElements:[data.todos_name,data.todos_important] });
         }
         else {
             const { data } = await axios.get(`/backend/todos-api/todo_container/${window.location.hash.slice(2)}.json`);
-            this.setState({ toDoItems: data.get_todo_items, isLoading: false });
+            this.setState({ toDoItems: data.get_todo_items.sort(sortByOrder), isLoading: false, headElements:[data.todos_name,data.todos_important] });
         }
     }
     componentDidMount() {
         this.getToDoItems();
     }
     render() {
-        const { isLoading, toDoItems } = this.state;
-        const { location } = this.props;
+        const { isLoading, toDoItems, headElements } = this.state;
+        const postToDo = (e) => {
+            const to_do_name = document.getElementById("toDo").value,
+                to_do_description = document.getElementById("desc").value,
+                order = document.getElementById("order").value
+            let post_data;
+            if (to_do_name) {
+                const to_do_belongs=window.location.hash.slice(2);
+                let newOrder;
+                if (!order) {
+                    newOrder=toDoItems.length+1;
+                } else {
+                    newOrder=order;
+                }
+
+                post_data={
+                    to_do_belongs:to_do_belongs,
+                    to_do_name:to_do_name,
+                    to_do_description:to_do_description,
+                    to_do_completed:false,
+                    to_do_order:newOrder
+                    };
+                console.log(post_data);
+                axios
+                .post("/backend/todos-api/todo/",post_data)
+                .then(response => (this.info = response.data))
+                .catch(error => console.log(error));
+
+            } else {
+                alert("To-Do is required!");
+            }
+        }
         return (<section className="container mx-auto">
             {isLoading ? (
                 <div className="loader">
@@ -33,8 +74,8 @@ class ToDoDetail extends React.Component {
                     <div className="w-full">
                         <div className="toDoDetailHeader w-full border-b-2 border-black p-3 flex justify-center">
                             <div className="w-1/3 text-left"><Link to='/'>Back to Main</Link></div>
-                            <div className="w-1/3"><h1 className="text-center font-semibold text-2xl">{location.state.todos_name}</h1></div>
-                            <div className="w-1/3"><h1 className="text-right">{location.state.todos_important.toString()}</h1></div>
+                            <div className="w-1/3"><h1 className="text-center font-semibold text-2xl">{headElements[0]}</h1></div>
+                            <div className="w-1/3"><h1 className="text-right">{headElements[1].toString()}</h1></div>
                         </div>
                         <div className="toDoDetailBody w-full">
                         <div className="toDoDetailHeader w-full border-b-2 border-gray-400 p-3 grid grid-cols-5">
@@ -58,14 +99,12 @@ class ToDoDetail extends React.Component {
                                     )
                                 })
                             }
-                            <div className="createToDo">
-                                <form action="#" method="POST" className="grid grid-cols-5 p-3">
-                                    <input className="text-center" placeholder="To-Do"></input>
-                                    <input className="text-center" placeholder="description"></input>
+                            <div className="createToDo grid grid-cols-5 p-3">
+                                    <input required type="text" className="text-center" placeholder="To-Do" name="to_do_name" id="toDo"></input>
+                                    <input type="text" className="text-center" placeholder="description" id="desc"></input>
                                     <span className="text-center">false</span>
-                                    <input className="text-center" placeholder="Order"></input>
-                                    <button className="font-bold text-center w-11/12 mx-auto bg-gray-400 rounded-lg text-white">Add</button>
-                                </form>
+                                    <input type="number" className="text-center" placeholder="Order" id="order"></input>
+                                    <button className="font-bold text-center w-11/12 mx-auto bg-gray-400 rounded-lg text-white" onClick={postToDo}>Add</button>
                             </div>
                         </div>
                     </div>
