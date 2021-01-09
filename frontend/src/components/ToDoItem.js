@@ -10,12 +10,30 @@ function ToDoItem(props) {
             }
         }
         props.getToDoItems();
-    }
+    }   
 
     const updatePartials = (e) => {
+        const currentState = e.target.innerText;
+        let div;
+        let button;
+        if (currentState){
+            div = e.target.parentNode.parentNode;
+            button = e.target.parentNode;
+        } else {
+            div = e.target.parentNode;
+            button = e.target;
+        }
+        
+        const buttonNumber = Number(button.id.slice(1,2));
         const patchToDo = async (form,data,button) => {
             data.id=Number(props.id);
+            const input = div.childNodes[1][0];
+            input.focus();
+            input.style.backgroundColor = "#FCF3CF";
+            input.onblur = function(){this.style.backgroundColor="#FFFFFF";};
+            input.onfocus = function(){this.style.backgroundColor="#FCF3CF";};
             form.addEventListener("submit",async function(){
+                data.data = input.value;
                 await axios
                 .patch(`/backend/todos-api/todo/${props.id}.json`,data)
                 .then(response => checkResponse(response))
@@ -24,18 +42,14 @@ function ToDoItem(props) {
                 button.style.display = "block";
             })
         }
-        const button = e.target.parentNode;
-        const buttonNumber = Number(button.id.slice(1,2));
-        const currentState = e.target.innerText;
         if (buttonNumber !== 3) {
-            const div = e.target.parentNode.parentNode;
             button.style.display = "none";
             const input = document.createElement("input");
-            input.value = currentState;
+            if (input.value) {input.value = currentState;};
             input.style.width = "100%";
             input.style.textAlign = "center";
-            input.style.backgroundColor = "#FCF3CF";
-            const form = document.createElement("form")
+            input.value = currentState;
+            const form = document.createElement("form");
             form.style.width = "100%";
             form.appendChild(input);
             div.appendChild(form);
@@ -43,17 +57,17 @@ function ToDoItem(props) {
                 case 1:
                     input.placeholder= "To-Do";
                     input.name="to_do_name";
-                    patchToDo(form,{to_do_name:input.value,type:"to_do_name"},button)
+                    patchToDo(form,{data:"",type:"to_do_name"},button)
                     return;
                 case 2:
                     input.placeholder= "Description";
                     input.name="to_do_description";
-                    patchToDo(form,{to_do_description:input.value,type:"to_do_description"},button)
+                    patchToDo(form,{data:"",type:"to_do_description"},button)
                     return;
                 case 4:
                     input.placeholder= "Order";
                     input.name="to_do_order";
-                    patchToDo(form,{to_do_order:input.value,type:"to_do_order"},button)
+                    patchToDo(form,{data:"",type:"to_do_order"},button)
                     return;
                 default:
                     console.log("Something went wrong");
@@ -63,7 +77,7 @@ function ToDoItem(props) {
                 await axios
                 .patch(
                     `/backend/todos-api/todo/${props.id}.json`,
-                    {to_do_completed:Boolean(switchto)}
+                    {data:Boolean(switchto),type:"to_do_completed",id:props.id}
                 )
                 .then(response => checkResponse(response))
                 .catch(error => console.log(error));

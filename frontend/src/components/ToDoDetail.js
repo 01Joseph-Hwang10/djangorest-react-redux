@@ -20,11 +20,11 @@ class ToDoDetail extends React.Component {
         };
         if (location.state) {
             const { data } = await axios.get(`/backend/todos-api/todo_container/${location.state.id}.json`);
-            this.setState({ toDoItems: data.get_todo_items.sort(sortByOrder), isLoading: false, headElements:[data.todos_name,data.todos_important] });
+            this.setState({ toDoItems: data.get_todo_items.sort(sortByOrder), isLoading: false, headElements:[data.todos_name,data.todos_important,location.state.id] });
         }
         else {
             const { data } = await axios.get(`/backend/todos-api/todo_container/${window.location.hash.slice(2)}.json`);
-            this.setState({ toDoItems: data.get_todo_items.sort(sortByOrder), isLoading: false, headElements:[data.todos_name,data.todos_important] });
+            this.setState({ toDoItems: data.get_todo_items.sort(sortByOrder), isLoading: false, headElements:[data.todos_name,data.todos_important,window.location.hash.slice(2)] });
         }
     }
     componentDidMount() {
@@ -57,7 +57,6 @@ class ToDoDetail extends React.Component {
                     to_do_order:newOrder
                     };
 
-                console.log(post_data);
 
                 const checkResponse = (response) => {
                     while (!response) {
@@ -81,6 +80,8 @@ class ToDoDetail extends React.Component {
                 alert("To-Do is required!");
             }
         }
+
+
 
         return (<section className="container mx-auto">
             {isLoading ? (

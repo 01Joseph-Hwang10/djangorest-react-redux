@@ -12,6 +12,8 @@ class ToDoContainerSerializer(HyperlinkedModelSerializer):
         model = todo_model.ToDoContainer
         fields = (
             'url', 'id',
+            'created',
+            'updated',
             'created_by',
             'created_username',
             'todos_name',
@@ -34,11 +36,13 @@ class ToDoSerializer(HyperlinkedModelSerializer):
         model = todo_model.ToDo
         fields = (
             'url', 'id',
+            'created',
+            'updated',
             'to_do_belongs',
             'to_do_name',
             'to_do_description',
             'to_do_order',
-            'to_do_completed'
+            'to_do_completed',
         )
         extra_kwargs = {
             'url': {
