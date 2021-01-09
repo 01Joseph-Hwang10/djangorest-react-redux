@@ -24,5 +24,5 @@ urlpatterns = [
     path('backend/users-api/', include("users.urls", namespace="users")),
     path('backend/todos-api/', include("todos.urls", namespace="todos")),
     path('backend/api-auth/',
-         include('rest_framework.urls', namespace='rest_framework')),
+        include('rest_framework.urls', namespace='rest_framework')),
 ]

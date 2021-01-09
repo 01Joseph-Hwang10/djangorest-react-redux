@@ -44,7 +44,10 @@ DJANGO_REST_APPS = [
     'rest_framework',
     'corsheaders',
     'rest_framework.authtoken',
+    'rest_auth.registration',
 ]
+
+SITE_ID = 1
 
 PROJECT_APPS = [
     'users.apps.UsersConfig',
