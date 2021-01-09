@@ -31,19 +31,28 @@ ALLOWED_HOSTS = []
 
 # Application definition
 
-INSTALLED_APPS = [
+DJANGO_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+]
+
+DJANGO_REST_APPS = [
     'rest_framework',
     'corsheaders',
+    'rest_framework.authtoken',
+]
+
+PROJECT_APPS = [
     'users.apps.UsersConfig',
     'todos.apps.TodosConfig',
     'core.apps.CoreConfig',
 ]
+
+INSTALLED_APPS = DJANGO_APPS + DJANGO_REST_APPS + PROJECT_APPS
 
 
 MIDDLEWARE = [
@@ -142,7 +151,11 @@ REST_FRAMEWORK = {
         'rest_framework.parsers.JSONParser',
         'rest_framework.parsers.FormParser',
         'rest_framework.parsers.MultiPartParser'
-    )
+    ),
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework.authentication.BasicAuthentication',
+        'rest_framework.authentication.SessionAuthentication',
+    ]
 }
 
 # Django Cors
