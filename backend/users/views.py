@@ -13,7 +13,7 @@ class UserViewSet(viewsets.ModelViewSet):
     """
     queryset = models.User.objects.all().order_by('-date_joined')
     serializer_class = UserSerializer
-    permission_classes = [permissions.IsAuthenticated]
+    permission_classes = (permissions.IsAuthenticated,)
 
     # def retrieve(self, request, *args, **kwargs):
     #     data = models.User.objects.all()  # 직렬화할 QuerySet
