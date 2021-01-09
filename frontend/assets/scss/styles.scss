@@ -2,10 +2,14 @@
 @tailwind components;
 
 #toDo, #desc, #order {
-    @apply bg-white;
+    @apply bg-gray-100;
     &:focus {
         @apply bg-yellow-100;
     }
+}
+
+body {
+    @apply bg-gray-100;
 }
 
 

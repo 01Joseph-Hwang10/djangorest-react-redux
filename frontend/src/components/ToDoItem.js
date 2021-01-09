@@ -29,9 +29,9 @@ function ToDoItem(props) {
             data.id=Number(props.id);
             const input = div.childNodes[1][0];
             input.focus();
-            input.style.backgroundColor = "#FCF3CF";
+            input.style.backgroundColor = "#F5F5F5";
             input.onblur = function(){this.style.backgroundColor="#FFFFFF";};
-            input.onfocus = function(){this.style.backgroundColor="#FCF3CF";};
+            input.onfocus = function(){this.style.backgroundColor="#F5F5F5";};
             form.addEventListener("submit",async function(){
                 data.data = input.value;
                 await axios
@@ -104,7 +104,7 @@ function ToDoItem(props) {
     const col4 = ["c4","r",props.to_do_order].join('');
 
     return (
-        <div className="toDoItem border-b p-3 grid grid-cols-5">
+        <div className="toDoItem border-b-2 border-gray-300 p-3 grid grid-cols-5">
             <div className="flex justify-center"><button className="w-full" id={col1} onClick={updatePartials}><h1 className="text-center">{props.to_do_name}</h1></button></div>
             <div className="flex justify-center"><button className="w-full" id={col2} onClick={updatePartials}><h1 className="text-center">{props.to_do_description}</h1></button></div>
             <div className="flex justify-center"><button className="w-full" id={col3} onClick={updatePartials}><h1 className="text-center">{props.to_do_completed.toString()}</h1></button></div>

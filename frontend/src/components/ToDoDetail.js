@@ -85,11 +85,11 @@ class ToDoDetail extends React.Component {
 
         return (<section className="container mx-auto">
             {isLoading ? (
-                <div className="loader">
-                    <span className="loader__text">Loading...</span>
+                <div className="loader w-screen h-screen flex justify-center items-center bg-gray-100">
+                    <span className="loader__text text-3xl text-bold text-white">Loading...</span>
                 </div>
             ) : (
-                    <div className="w-full">
+                    <div className="w-11/12 mt-5 mx-auto border border-gray-300 rounded">
                         <div className="toDoDetailHeader w-full border-b-2 border-black p-3 flex justify-center">
                             <div className="w-1/3 text-left"><Link to='/'>Back to Main</Link></div>
                             <div className="w-1/3"><h1 className="text-center font-semibold text-2xl">{headElements[0]}</h1></div>

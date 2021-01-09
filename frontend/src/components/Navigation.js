@@ -23,8 +23,8 @@ function Navigation(props) {
     } else {
         return (
             <div className="flex justify-between w-full p-3 border-b-2 border-black">
-                <div><Link><span>myToDoSNS</span></Link></div>
-                <div><Link><span>Log in</span></Link></div>
+                <div><Link to='/'><span>myToDoSNS</span></Link></div>
+                <div><Link to='/login'><span>Log in</span></Link></div>
             </div>
         )
     }

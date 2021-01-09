@@ -16,13 +16,13 @@ class ToDoLists extends React.Component {
     }
     render() {
         const { isLoading, toDos } = this.state;
-        return (<section className="container mx-auto">
+        return (<section className="container">
             {isLoading ? (
-                <div className="loader">
-                    <span className="loader__text">Loading...</span>
+                <div className="loader w-screen h-screen flex justify-center items-center bg-gray-100">
+                    <span className="loader__text text-2xl text-white font-bold">Loading...</span>
                 </div>
             ) : (
-                    <div className="toDos w-full">
+                    <div className="toDos w-11/12 mt-5 border rounded mx-auto">
                         <div className="toDoDetailHeader w-full border-b-2 border-black p-3 flex justify-between">
                             <h1>To-Do</h1>
                             <h1>Made by</h1>
@@ -32,7 +32,7 @@ class ToDoLists extends React.Component {
                                 return (
                                     <Link
                                         to={{
-                                            pathname: `/${toDo.id}`,
+                                            pathname: `/detail/${toDo.id}`,
                                             state: {
                                                 key: toDo.id,
                                                 id: toDo.id,
