@@ -13,4 +13,5 @@ app_name = "users"
 urlpatterns = [
     path('', include(router.urls)),
     path('api-token-auth/', views.obtain_auth_token,name="api_token_auth"),
+    path('sign-up/',backend_view.SignUpView.as_view(),name="sign_up")
 ]

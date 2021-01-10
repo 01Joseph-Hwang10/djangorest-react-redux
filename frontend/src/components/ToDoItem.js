@@ -1,5 +1,7 @@
 import axios from 'axios';
 import React from 'react';
+import CSRFToken from '../csrftoken';
+import csrftoken from '../csrftoken';
 
 function ToDoItem(props) {
     
@@ -34,8 +36,15 @@ function ToDoItem(props) {
             input.onfocus = function(){this.style.backgroundColor="#fef3c7";};
             form.addEventListener("submit",async function(){
                 data.data = input.value;
+                const config = {
+                    headers: {
+                        'Accept': 'application/json',
+                        'Content-Type': 'application/json',
+                        'X-CSRFToken': csrftoken
+                      }
+                }
                 await axios
-                .patch(`/backend/todos-api/todo/${props.id}.json`,data)
+                .patch(`/backend/todos-api/todo/${props.id}.json`,data,config)
                 .then(response => checkResponse(response))
                 .catch(error => console.log(error));
                 form.remove();
@@ -74,10 +83,11 @@ function ToDoItem(props) {
             }
         } else if (buttonNumber===3) {
             const patchBool = async (switchto) => {
+                //You need to add every form csrf token!!
                 await axios
                 .patch(
                     `/backend/todos-api/todo/${props.id}.json`,
-                    {data:Boolean(switchto),type:"to_do_completed",id:props.id}
+                    {data:Boolean(switchto),type:"to_do_completed",id:props.id},
                 )
                 .then(response => checkResponse(response))
                 .catch(error => console.log(error));
@@ -103,8 +113,10 @@ function ToDoItem(props) {
     const col3 = ["c3","r",props.to_do_order].join('');
     const col4 = ["c4","r",props.to_do_order].join('');
 
+
     return (
         <div className="toDoItem border-b-2 border-gray-300 p-3 grid grid-cols-5">
+            <CSRFToken />
             <div className="flex justify-center"><button className="w-full" id={col1} onClick={updatePartials}><h1 className="text-center">{props.to_do_name}</h1></button></div>
             <div className="flex justify-center"><button className="w-full" id={col2} onClick={updatePartials}><h1 className="text-center">{props.to_do_description}</h1></button></div>
             <div className="flex justify-center"><button className="w-full" id={col3} onClick={updatePartials}><h1 className="text-center">{props.to_do_completed.toString()}</h1></button></div>

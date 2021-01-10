@@ -48,7 +48,7 @@ class ToDoViewSet(viewsets.ModelViewSet):
             new_object.save()
             return response.Response(data="Saved successfully")
         except Exception:
-            return HttpResponse.JsonResponse(code=500, data="Internal Server Error")
+            return JsonResponse(code=500, data="Internal Server Error")
 
     def partial_update(self, request,pk,format):
         try:

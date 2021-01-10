@@ -1,10 +1,35 @@
+import datetime
 from django.contrib.auth.models import Group
 from django.core.serializers.json import DjangoJSONEncoder
 from django.http import JsonResponse
-from rest_framework import viewsets
-from rest_framework import permissions
+from rest_framework import viewsets, permissions, response, generics
 from .serializers import UserSerializer, GroupSerializer
 from . import models
+
+class SignUpView(generics.CreateAPIView):
+
+    queryset = models.User.objects.all()
+    serializer_class = UserSerializer
+
+    def post(self, request):
+        try:
+            post_data = request.data
+            first_name=post_data['first_name']
+            last_name=post_data['last_name']
+            email=post_data['email']
+            username=email
+            password=post_data['password']
+            new_object =models.User(
+                username=username,
+                password=password,
+                first_name=first_name,
+                last_name=last_name,
+                email=email,
+                )
+            new_object.save()
+            return response.Response(data="Saved successfully")
+        except Exception:
+            return JsonResponse(code=500, data="Internal Server Error")
 
 
 class UserViewSet(viewsets.ModelViewSet):
@@ -15,15 +40,6 @@ class UserViewSet(viewsets.ModelViewSet):
     serializer_class = UserSerializer
     permission_classes = (permissions.IsAuthenticated,)
 
-    # def retrieve(self, request, *args, **kwargs):
-    #     data = models.User.objects.all()  # 직렬화할 QuerySet
-    #     encoder = DjangoJSONEncoder  # DjangoJSONEncoder를 커스튬한 Encoder
-    #     # default = True 로서 변환할 데이터의 타입이 dict인지 확인합니다. dict 가 아닐 경우에는 False로 설정해주어야 합니다. QuerySet 은 dict 타입이 아니므로 False로 설정합니다.
-    #     safe = False
-    #     # 한글 등의 유니코드는 16진수로 표현되므로 이를 False 로 바꿔주면 한글문자가 그대로 출력됩니다.
-    #     json_dumps_params = {'ensure_ascii': False}
-    #     kwargs = {}
-    #     return JsonResponse(data, encoder, safe, json_dumps_params, kwargs)
 
 
 class GroupViewSet(viewsets.ModelViewSet):

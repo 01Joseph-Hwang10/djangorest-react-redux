@@ -2,6 +2,7 @@ import React from 'react';
 import axios from 'axios';
 import ToDoItem from './ToDoItem';
 import { Link } from 'react-router-dom';
+import CSRFToken from '../csrftoken';
 
 class ToDoDetail extends React.Component {
     state = {
@@ -91,7 +92,7 @@ class ToDoDetail extends React.Component {
             ) : (
                     <div className="w-11/12 mt-5 mx-auto border border-gray-300 rounded">
                         <div className="toDoDetailHeader w-full border-b-2 border-black p-3 flex justify-center">
-                            <div className="w-1/3 text-left"><Link to='/'>Back to Main</Link></div>
+                            <div className="w-1/3 text-left"><Link>To-Do Settings</Link></div>
                             <div className="w-1/3"><h1 className="text-center font-semibold text-2xl">{headElements[0]}</h1></div>
                             <div className="w-1/3"><h1 className="text-right">{headElements[1].toString()}</h1></div>
                         </div>
@@ -120,6 +121,7 @@ class ToDoDetail extends React.Component {
                             }
                             <div>
                                 <form action="/backend/todos-api/todo/" onSubmit={postToDo} method="POST" className="createToDo grid grid-cols-5 p-3">
+                                    <CSRFToken />
                                     <input required type="text" className="text-center" placeholder="To-Do" name="to_do_name" id="toDo"></input>
                                     <input type="text" className="text-center" placeholder="description" name="to_do_description" id="desc"></input>
                                     <span className="text-center">false</span>
