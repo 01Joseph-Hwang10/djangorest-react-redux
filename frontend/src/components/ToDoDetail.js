@@ -23,8 +23,8 @@ class ToDoDetail extends React.Component {
             this.setState({ toDoItems: data.get_todo_items.sort(sortByOrder), isLoading: false, headElements:[data.todos_name,data.todos_important,location.state.id] });
         }
         else {
-            const { data } = await axios.get(`/backend/todos-api/todo_container/${window.location.hash.slice(2)}.json`);
-            this.setState({ toDoItems: data.get_todo_items.sort(sortByOrder), isLoading: false, headElements:[data.todos_name,data.todos_important,window.location.hash.slice(2)] });
+            const { data } = await axios.get(`/backend/todos-api/todo_container/${window.location.hash.replace(/\D/g,'')}.json`);
+            this.setState({ toDoItems: data.get_todo_items.sort(sortByOrder), isLoading: false, headElements:[data.todos_name,data.todos_important,window.location.hash.replace(/\D/g,'')] });
         }
     }
     componentDidMount() {
@@ -86,7 +86,7 @@ class ToDoDetail extends React.Component {
         return (<section className="container mx-auto">
             {isLoading ? (
                 <div className="loader w-screen h-screen flex justify-center items-center bg-gray-100">
-                    <span className="loader__text text-3xl text-bold text-white">Loading...</span>
+                    <span className="loader__text text-3xl text-bold text-gray-600">Loading...</span>
                 </div>
             ) : (
                     <div className="w-11/12 mt-5 mx-auto border border-gray-300 rounded">

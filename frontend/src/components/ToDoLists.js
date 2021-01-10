@@ -19,7 +19,7 @@ class ToDoLists extends React.Component {
         return (<section className="container">
             {isLoading ? (
                 <div className="loader w-screen h-screen flex justify-center items-center bg-gray-100">
-                    <span className="loader__text text-2xl text-white font-bold">Loading...</span>
+                    <span className="loader__text text-2xl text-gray-600 font-bold">Loading...</span>
                 </div>
             ) : (
                     <div className="toDos w-11/12 mt-5 border rounded mx-auto">

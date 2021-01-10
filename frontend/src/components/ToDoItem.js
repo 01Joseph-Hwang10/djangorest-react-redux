@@ -29,9 +29,9 @@ function ToDoItem(props) {
             data.id=Number(props.id);
             const input = div.childNodes[1][0];
             input.focus();
-            input.style.backgroundColor = "#F5F5F5";
-            input.onblur = function(){this.style.backgroundColor="#FFFFFF";};
-            input.onfocus = function(){this.style.backgroundColor="#F5F5F5";};
+            input.style.backgroundColor = "#fef3c7";
+            input.onblur = function(){this.style.backgroundColor="#f3f4f6";};
+            input.onfocus = function(){this.style.backgroundColor="#fef3c7";};
             form.addEventListener("submit",async function(){
                 data.data = input.value;
                 await axios
