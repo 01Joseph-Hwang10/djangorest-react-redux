@@ -1,7 +1,7 @@
 import axios from 'axios';
 import React from 'react';
 import CSRFToken from '../csrftoken';
-import csrftoken from '../csrftoken';
+// import csrftoken from '../csrftoken';
 
 function ToDoItem(props) {
     
@@ -16,6 +16,7 @@ function ToDoItem(props) {
 
     const updatePartials = (e) => {
         const currentState = e.target.innerText;
+        const csrftoken = document.getElementsByName("csrfmiddlewaretoken").value;
         let div;
         let button;
         if (currentState){
@@ -25,10 +26,10 @@ function ToDoItem(props) {
             div = e.target.parentNode;
             button = e.target;
         }
-        
         const buttonNumber = Number(button.id.slice(1,2));
         const patchToDo = async (form,data,button) => {
             data.id=Number(props.id);
+            data.csrfmiddlewaretoken=csrftoken;
             const input = div.childNodes[1][0];
             input.focus();
             input.style.backgroundColor = "#fef3c7";
@@ -36,15 +37,15 @@ function ToDoItem(props) {
             input.onfocus = function(){this.style.backgroundColor="#fef3c7";};
             form.addEventListener("submit",async function(){
                 data.data = input.value;
-                const config = {
-                    headers: {
-                        'Accept': 'application/json',
-                        'Content-Type': 'application/json',
-                        'X-CSRFToken': csrftoken
-                      }
-                }
+                // const config = {
+                //     headers: {
+                //         'Accept': 'application/json',
+                //         'Content-Type': 'application/json',
+                //         'X-CSRFToken': csrftoken
+                //       }
+                // }
                 await axios
-                .patch(`/backend/todos-api/todo/${props.id}.json`,data,config)
+                .patch(`/backend/todos-api/todo/${props.id}.json`,data)
                 .then(response => checkResponse(response))
                 .catch(error => console.log(error));
                 form.remove();

@@ -18,7 +18,8 @@ function Login(props) {
         axios
         .post('/backend/users-api/api-token-auth/',post_data)
         .then(response => {
-            document.cookie = "access_token="+response.data.token+"; path=/;";
+            document.cookie = ("username="+email+"; path=/;");
+            document.cookie = ("access_token="+response.data.token+"; path=/;");
             window.location.href = "/";
         })
         .catch((error) => {
@@ -40,7 +41,7 @@ function Login(props) {
                 <Link to='/login/signup'><span className="ml-2 text-center text-green-400 font-bold my-2">Sign Up</span></Link>
             </div>
         </div>
-    )
+    );
 }
 
 export default Login;

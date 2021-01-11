@@ -9,7 +9,6 @@ class ToDoDetail extends React.Component {
         isLoading: true,
     };
     getToDoItems = async () => {
-        const { location } = this.props;
         const sortByOrder = (a,b) => {
             if (a.to_do_order < b.to_do_order) {
                 return -1;
@@ -19,14 +18,16 @@ class ToDoDetail extends React.Component {
             }
             return 0;
         };
-        if (location.state) {
-            const { data } = await axios.get(`/backend/todos-api/todo_container/${location.state.id}.json`);
-            this.setState({ toDoItems: data.get_todo_items.sort(sortByOrder), isLoading: false, headElements:[data.todos_name,data.todos_important,location.state.id] });
-        }
-        else {
-            const { data } = await axios.get(`/backend/todos-api/todo_container/${window.location.hash.replace(/\D/g,'')}.json`);
-            this.setState({ toDoItems: data.get_todo_items.sort(sortByOrder), isLoading: false, headElements:[data.todos_name,data.todos_important,window.location.hash.replace(/\D/g,'')] });
-        }
+        const { data } = await axios.get(`/backend/todos-api/todo_container/${window.location.hash.replace(/\D/g,'')}.json`);
+        this.setState({ 
+            toDoItems: data.get_todo_items.sort(sortByOrder), 
+            isLoading: false, 
+            headElements:[
+                data.todos_name,
+                data.todos_important,
+                window.location.hash.replace(/\D/g,'')
+                    ]});
+
     }
     componentDidMount() {
         this.getToDoItems();

@@ -1,20 +1,11 @@
-import React, {useEffect} from 'react';
-import { useState } from 'react';
+import React from 'react';
 import { Link } from "react-router-dom";
+import useAuth from '../hooks/useAuth';
 
 function Navigation(props) {
 
-    const [isAuthenticated, setIsAuthenticated] = useState(false);
-
-    // Need more fix!!!! More reinforcement!!!
-    useEffect(()=>{
-        const cookie = document.cookie.slice(13);
-        if (cookie) {
-            setIsAuthenticated(true);
-        } else {
-            setIsAuthenticated(false);
-        }
-    },[])
+    // eslint-disable-next-line
+    const {isAuthenticated, setIsAuthenticated} = useAuth();
 
     const switchDisplay = () => {
         const menu = document.getElementById("menu")
@@ -31,6 +22,7 @@ function Navigation(props) {
     }
 
     const logOut = () => {
+        document.cookie = "username=; path=/;"
         document.cookie = "access_token=; path=/;";
         if (window.location !== "/" || 
             window.location !== "/#" || 

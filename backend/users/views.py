@@ -3,8 +3,35 @@ from django.contrib.auth.models import Group
 from django.core.serializers.json import DjangoJSONEncoder
 from django.http import JsonResponse
 from rest_framework import viewsets, permissions, response, generics
+from rest_framework.authtoken.models import Token
 from .serializers import UserSerializer, GroupSerializer
 from . import models
+
+
+class CheckAuthView(generics.CreateAPIView):
+
+    queryset = Token.objects.all()
+
+    def post(self,request):
+        try:
+            post_data = request.data
+            token = post_data['token']
+            user = post_data['username']
+            token_obj=Token.objects.get(key=token)
+            user_obj=models.User.objects.get(username=user)
+            if token_obj and token_obj.user.username==user:
+                if user_obj and user_obj.auth_token.key==token_obj.key and user_obj.auth_token.key==token:
+                    return JsonResponse(data={
+                        "auth":True,
+                        "user":user,
+                        "user_id":user_obj.id,
+                        "token":token,
+                        "description":"Authorization successful",
+                    })
+            raise Exception
+        except Exception:
+            return response.Response(data="Something went wrong")
+
 
 class SignUpView(generics.CreateAPIView):
 

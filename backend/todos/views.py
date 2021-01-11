@@ -6,23 +6,23 @@ from . import models
 from .serializers import ToDoSerializer, ToDoContainerSerializer
 
 
-# class ToDoCAPIView(generics.ListCreateAPIView):
-
-#     queryset = models.ToDo.objects.all()
-#     serializer_class = ToDoSerializer
-
-# class ToDoRUDAPIView(generics.RetrieveUpdateDestroyAPIView):
-    
-#     queryset = models.ToDo.objects.all()
-#     serializer_class = ToDoSerializer
-
-
 class ToDoViewSet(viewsets.ModelViewSet):
     """
     API endpoint that allows Todos to be viewed or edited.
     """
     queryset = models.ToDo.objects.all()
     serializer_class = ToDoSerializer
+
+    def list(self, request, *args, **kwargs):
+        queryset = self.filter_queryset(self.get_queryset())
+
+        page = self.paginate_queryset(queryset)
+        if page is not None:
+            serializer = self.get_serializer(page, many=True)
+            return self.get_paginated_response(serializer.data)
+
+        serializer = self.get_serializer(queryset, many=True)
+        return Response(serializer.data)
 
     def create(self, request):
         try:
@@ -81,3 +81,14 @@ class ToDoContainerViewSet(viewsets.ModelViewSet):
     """
     queryset = models.ToDoContainer.objects.all().order_by('created')
     serializer_class = ToDoContainerSerializer
+
+    def list(self, request, *args, **kwargs):
+        queryset = self.filter_queryset(self.get_queryset())
+
+        page = self.paginate_queryset(queryset)
+        if page is not None:
+            serializer = self.get_serializer(page, many=True)
+            return self.get_paginated_response(serializer.data)
+
+        serializer = self.get_serializer(queryset, many=True)
+        return response.Response(serializer.data)
