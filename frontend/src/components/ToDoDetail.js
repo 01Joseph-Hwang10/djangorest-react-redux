@@ -21,8 +21,6 @@ class ToDoDetail extends React.Component {
         };
         if (this.props.id) {
             const { data } = await axios.get(`/backend/todos-api/todo_container/${this.props.id}.json`);
-            console.log("first");
-            console.log(data.id);
             this.setState({ 
                 toDoItems: data.get_todo_items.sort(sortByOrder), 
                 isLoading: false, 
@@ -34,8 +32,6 @@ class ToDoDetail extends React.Component {
                     }});
         } else {
             const { data } = await axios.get(`/backend/todos-api/todo_container/${window.location.hash.replace(/\D/g,'')}.json`);
-            console.log("Not first");
-            console.log(data.id);
             this.setState({ 
                 toDoItems: data.get_todo_items.sort(sortByOrder), 
                 isLoading: false, 
@@ -57,9 +53,8 @@ class ToDoDetail extends React.Component {
         // eslint-disable-next-line
         const {isAuthenticated , setIsAuthenticated} = this.props;
         const { isLoading, toDoItems, headElements } = this.state;
-        console.log(headElements);
         
-        if (isAuthenticated && cookie.user_id === headElements.created_by) {
+        if (isAuthenticated && headElements && cookie.user_id === headElements.created_by) {
 
             const postToDo = async (e) => {
                 e.preventDefault();
