@@ -18,7 +18,7 @@ function Login(props) {
         axios
         .post('/backend/users-api/api-token-auth/',post_data)
         .then(response => {
-            document.cookie = ("username="+email+"; path=/;");
+            document.cookie = ("user_id="+response.data.user_id+"; path=/;");
             document.cookie = ("access_token="+response.data.token+"; path=/;");
             window.location.href = "/";
         })

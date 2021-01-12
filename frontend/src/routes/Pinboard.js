@@ -1,18 +1,17 @@
 import React from "react";
-import ToDoDetail from '../components/ToDoDetail';
+import ToDoLists from '../components/ToDoLists';
 import useAuth from "../hooks/useAuth";
 
-function Detail(props) {
+function Pinboard() {
     const {isAuthenticated,setIsAuthenticated} = useAuth();
 
     return (
-        <ToDoDetail 
+        <ToDoLists 
         isAuthenticated={isAuthenticated}
         setIsAuthenticated={setIsAuthenticated}
-        id={props.location.state.id}
+        pinboard={true}
         />
     )
 }
 
-
-export default Detail;
+export default Pinboard;

@@ -2,6 +2,7 @@ import React from 'react';
 import axios from 'axios';
 import ToDoCard from './ToDoCard';
 import { Link } from 'react-router-dom';
+import json_cookie from '../routes/auth/cookie';
 
 class ToDoLists extends React.Component {
     state = {
@@ -15,7 +16,12 @@ class ToDoLists extends React.Component {
         this.getToDos();
     }
     render() {
-        const { isLoading, toDos } = this.state;
+        let { isLoading, toDos } = this.state;
+        if (this.props.pinboard && toDos && this.props.isAuthenticated && json_cookie.user_id) {
+            const user_id = json_cookie.user_id;
+            toDos = toDos.filter(toDo=>toDo.created_by===user_id);
+            console.log(toDos);
+        }
         return (<section className="container">
             {isLoading ? (
                 <div className="loader w-screen h-screen flex justify-center items-center bg-gray-100">
@@ -36,6 +42,7 @@ class ToDoLists extends React.Component {
                                             state: {
                                                 key: toDo.id,
                                                 id: toDo.id,
+                                                created_by: toDo.created_by,
                                                 todos_name: toDo.todos_name,
                                                 todos_important: toDo.todos_important
                                             }

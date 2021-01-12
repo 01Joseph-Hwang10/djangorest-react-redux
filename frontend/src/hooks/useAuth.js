@@ -8,28 +8,30 @@ const useAuth = () => {
     
     // Need more fix!!!! More reinforcement!!!
     useEffect(()=>{
+        let isMounted = true;
         const cookie = json_cookie;
-        if (cookie.username && cookie.access_token) {
+        if (cookie.user_id && cookie.access_token) {
             const data = {
-                    username:cookie.username,
+                    user_id:cookie.user_id,
                     token:cookie.access_token
             };
             axios
             .post('/backend/users-api/check-auth/',data)
-            .then(response => {
-                const data = response.data;
+            .then( async (response) => {
+                const data = await response.data;
                 if (data.auth) {
-                    setIsAuthenticated(true);
+                    if(isMounted) setIsAuthenticated(true);
                 } else {
                     console.log("Authorization Failed");
-                    setIsAuthenticated(false);
+                    if(isMounted) setIsAuthenticated(false);
                 }
             })
             .catch(error => console.log(error));
         } else {
             setIsAuthenticated(false);
         }
-    },[])
+        return () => {isMounted=false};
+    },[isAuthenticated])
 
     return {
         isAuthenticated:isAuthenticated,

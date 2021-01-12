@@ -14,15 +14,24 @@ class CustomUserAdmin(UserAdmin):
 
     inlines = (ToDoContainerInline,)
 
-    fieldsets = UserAdmin.fieldsets
+    fieldsets = UserAdmin.fieldsets + (
+        (
+            "Custom Profile",{
+                "fields": (
+                    "avatar",
+                    "bio",
+                )
+            }
+        ),
+    )
 
     list_filter = UserAdmin.list_filter
 
     list_display = (
         "username",
+        "email",
         "first_name",
         "last_name",
-        "email",
         "is_active",
         "my_todos",
     )

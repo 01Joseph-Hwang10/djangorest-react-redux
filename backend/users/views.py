@@ -4,8 +4,25 @@ from django.core.serializers.json import DjangoJSONEncoder
 from django.http import JsonResponse
 from rest_framework import viewsets, permissions, response, generics
 from rest_framework.authtoken.models import Token
+from rest_framework.authtoken import views
 from .serializers import UserSerializer, GroupSerializer
 from . import models
+
+
+class ObtainTokenView(views.ObtainAuthToken):
+
+    def post(self, request, *args, **kwargs):
+        try:
+            serializer = self.get_serializer(data=request.data)
+            serializer.is_valid(raise_exception=True)
+            user = serializer.validated_data['user']
+            token, _ = Token.objects.get_or_create(user=user)
+            return response.Response({
+                'token': token.key,
+                'user_id':user.id
+                })
+        except Exception:
+            return response.Response(data="Something went wrong")
 
 
 class CheckAuthView(generics.CreateAPIView):
@@ -16,15 +33,14 @@ class CheckAuthView(generics.CreateAPIView):
         try:
             post_data = request.data
             token = post_data['token']
-            user = post_data['username']
+            user_id = int(post_data['user_id'])
             token_obj=Token.objects.get(key=token)
-            user_obj=models.User.objects.get(username=user)
-            if token_obj and token_obj.user.username==user:
+            user_obj=models.User.objects.get(id=user_id)
+            if token_obj and token_obj.user.id==user_id:
                 if user_obj and user_obj.auth_token.key==token_obj.key and user_obj.auth_token.key==token:
                     return JsonResponse(data={
                         "auth":True,
-                        "user":user,
-                        "user_id":user_obj.id,
+                        "user_id":user_id,
                         "token":token,
                         "description":"Authorization successful",
                     })

@@ -22,7 +22,7 @@ function Navigation(props) {
     }
 
     const logOut = () => {
-        document.cookie = "username=; path=/;"
+        document.cookie = "user_id=; path=/;"
         document.cookie = "access_token=; path=/;";
         if (window.location !== "/" || 
             window.location !== "/#" || 
@@ -41,7 +41,7 @@ function Navigation(props) {
         <div className="flex justify-between w-full p-3 border-b-2 border-black">
             <div className="ml-3"><Link to='/'><span>myToDoSNS</span></Link></div>
             <div className="flex mr-3">
-                <div className="mx-3"><Link><span>Profile</span></Link></div>
+                <div className="mx-3"><Link><span>Pinboard</span></Link></div>
                 <div className="relative">
                     <button id="menu_btn" onClick={switchDisplay}>Menu</button>
                     <div className="absolute right-px flex flex-col bg-gray-100 border border-gray-400" style={{display:'none'}} id="menu">
