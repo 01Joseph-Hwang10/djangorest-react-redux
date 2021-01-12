@@ -1,20 +1,25 @@
 import React from 'react';
+import CSRFToken from '../csrftoken';
+import axios from 'axios';
 
 function ToDoCard(props) {
 
-    return (
-        <div className="toDoCard border p-3 flex center">
-            <div className="w-1/2 flex justify-start items-center">
-                <div><h1>{props.todos_name}</h1></div>
-                <div className="mx-1 h-full w-px bg-black"></div>
-                <div><h1>{props.todos_important.toString()}</h1></div>
+    if(props.pinboard){
+        return (
+            <div className="toDoCard w-full flex justify-start p-3 border">
+                <CSRFToken />
+                <h1>{props.todos_name}</h1>
             </div>
-            <div className="w-1/2 flex justify-end">
+        );
+    } else {
+        return (
+            <div className="toDoCard w-full flex justify-between p-3 border">
+                <h1>{props.todos_name}</h1>
                 <h1>{props.created_username}</h1>
             </div>
+        );
+    }
 
-        </div>
-    );
 
 };
 

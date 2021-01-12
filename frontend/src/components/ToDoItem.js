@@ -91,12 +91,15 @@ function ToDoItem(props) {
                 }
             } else if (buttonNumber===3) {
                 const patchBool = async (switchto) => {
-                    //You need to add every form csrf token!!
+                    const csrftoken = document.getElementsByName("csrfmiddlewaretoken")[0].value;
+                    const post_data={
+                        data:Boolean(switchto),
+                        type:"to_do_completed",
+                        id:props.id,
+                        csrfmiddlewaretoken:csrftoken
+                    };
                     await axios
-                    .patch(
-                        `/backend/todos-api/todo/${props.id}.json`,
-                        {data:Boolean(switchto),type:"to_do_completed",id:props.id},
-                    )
+                    .patch(`/backend/todos-api/todo/${props.id}.json`,post_data)
                     .then(response => checkResponse(response))
                     .catch(error => console.log(error));
                 }

@@ -9,6 +9,7 @@ function Home() {
         <ToDoLists 
         isAuthenticated={isAuthenticated}
         setIsAuthenticated={setIsAuthenticated}
+        pinboard={false}
         />
     )
 }

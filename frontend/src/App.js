@@ -8,7 +8,7 @@ import SignUp from './routes/auth/SignUp';
 import Pinboard from './routes/Pinboard';
 
 
-function App() {
+function App(props) {
   return (
     <HashRouter>
       <Navigation />
@@ -16,7 +16,7 @@ function App() {
       <Route path="/login" exact={true} component={Login} />
       <Route path="/" exact={true} component={Home} />
       <Route path="/detail/:id" component={Detail} />
-      <Route path="/pinboard/:id" component={Pinboard} />
+      <Route path="/pinboard/:user_id" component={Pinboard} />
     </HashRouter>
   );
 }

@@ -28,7 +28,7 @@ class ToDoDetail extends React.Component {
                     todos_name:data.todos_name,
                     todos_important:data.todos_important,
                     todos_id:data.id,
-                    created_by:data.created_by
+                    created_by:Number(data.created_by)
                     }});
         } else {
             const { data } = await axios.get(`/backend/todos-api/todo_container/${window.location.hash.replace(/\D/g,'')}.json`);
@@ -39,7 +39,7 @@ class ToDoDetail extends React.Component {
                     todos_name:data.todos_name,
                     todos_important:data.todos_important,
                     todos_id:data.id,
-                    created_by:data.created_by
+                    created_by:Number(data.created_by)
                     }});
         }
     }
@@ -54,13 +54,14 @@ class ToDoDetail extends React.Component {
         const {isAuthenticated , setIsAuthenticated} = this.props;
         const { isLoading, toDoItems, headElements } = this.state;
         
-        if (isAuthenticated && headElements && cookie.user_id === headElements.created_by) {
+        if (isAuthenticated && headElements && Number(cookie.user_id) === headElements.created_by) {
 
             const postToDo = async (e) => {
                 e.preventDefault();
                 const to_do_name = document.getElementById("toDo"),
                     to_do_description = document.getElementById("desc"),
-                    order = document.getElementById("order")
+                    order = document.getElementById("order"),
+                    csrftoken = document.getElementsByName("csrfmiddlewaretoken")[0];
                 let post_data;
                 if (to_do_name.value) {
                     const to_do_belongs=window.location.hash.slice(2);
@@ -75,7 +76,8 @@ class ToDoDetail extends React.Component {
                         to_do_belongs:to_do_belongs,
                         to_do_name:to_do_name.value,
                         to_do_description:to_do_description.value,
-                        to_do_order:newOrder
+                        to_do_order:newOrder,
+                        csrfmiddlewaretoken:csrftoken.value
                         };
     
     
@@ -140,10 +142,10 @@ class ToDoDetail extends React.Component {
                                 <div>
                                     <form action="/backend/todos-api/todo/" onSubmit={postToDo} method="POST" className="createToDo grid grid-cols-5 p-3">
                                         <CSRFToken />
-                                        <input required type="text" className="text-center" placeholder="To-Do" name="to_do_name" id="toDo"></input>
-                                        <input type="text" className="text-center" placeholder="description" name="to_do_description" id="desc"></input>
+                                        <input required type="text" className="input1 text-center" placeholder="To-Do" name="to_do_name"></input>
+                                        <input type="text" className="input1 text-center" placeholder="description" name="to_do_description"></input>
                                         <span className="text-center">false</span>
-                                        <input type="number" className="text-center" placeholder="Order" name="to_do_order" id="order"></input>
+                                        <input type="number" className="input1 text-center" placeholder="Order" name="to_do_order"></input>
                                         <button className="font-bold text-center w-11/12 mx-auto bg-gray-400 rounded-lg text-white">Add</button>
                                     </form>
                                 </div>

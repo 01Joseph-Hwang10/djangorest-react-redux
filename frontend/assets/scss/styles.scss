@@ -1,7 +1,7 @@
 @tailwind base;
 @tailwind components;
 
-#toDo, #desc, #order {
+.input1 {
     @apply bg-gray-100;
     &:focus {
         @apply bg-yellow-100;
