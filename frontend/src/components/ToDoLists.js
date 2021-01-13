@@ -17,7 +17,7 @@ class ToDoLists extends React.Component {
         this.getToDos();
     }
     render() {
-        const { isLoading, toDos, toDosCount } = this.state;
+        const { isLoading, toDos } = this.state;
         const checkResponse = (response) => {
             while (!response) {
                 if (response) {
@@ -54,7 +54,7 @@ class ToDoLists extends React.Component {
             };
 
             const updatePartials = (e) => {
-                const currentState = Boolean(e.target.innerText);
+                const currentState = e.target.innerText;
                 const id = e.target.parentNode.parentNode.childNodes[0].childNodes[0].getAttribute("href").replace(/\D/g,'');
                 const csrftoken = document.getElementsByName("csrfmiddlewaretoken")[0];
                 const switchTo = async (switchto) => {
@@ -80,7 +80,7 @@ class ToDoLists extends React.Component {
                         .then(response => checkResponse(response))
                         .catch(error => console.log(error));
                     }
-                if(currentState) {
+                if(currentState.length < 5) {
                     switchTo(false);
                 } else {
                     switchTo(true);

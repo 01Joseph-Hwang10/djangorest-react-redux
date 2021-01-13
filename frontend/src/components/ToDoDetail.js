@@ -58,13 +58,13 @@ class ToDoDetail extends React.Component {
 
             const postToDo = async (e) => {
                 e.preventDefault();
-                const to_do_name = document.getElementById("toDo"),
-                    to_do_description = document.getElementById("desc"),
-                    order = document.getElementById("order"),
+                const to_do_name = document.getElementsByName("to_do_name")[0],
+                    to_do_description = document.getElementsByName("to_do_description")[0],
+                    order = document.getElementsByName("to_do_order")[0],
                     csrftoken = document.getElementsByName("csrfmiddlewaretoken")[0];
                 let post_data;
                 if (to_do_name.value) {
-                    const to_do_belongs=window.location.hash.slice(2);
+                    const to_do_belongs=window.location.hash.replace(/\D/g,'');
                     let newOrder;
                     if (!order.value) {
                         newOrder=toDoItems.length+1;
@@ -116,8 +116,8 @@ class ToDoDetail extends React.Component {
                         <div className="w-11/12 mt-5 mx-auto border border-gray-300 rounded">
                             <div className="toDoDetailHeader w-full border-b-2 border-black p-3 flex justify-center">
                                 <div className="w-1/3 text-left"><Link>To-Do Settings</Link></div>
-                                <div className="w-1/3"><h1 className="text-center font-semibold text-2xl">{headElements.todos_name}</h1></div>
-                                <div className="w-1/3"><h1 className="text-right">{headElements.todos_important.toString()}</h1></div>
+                                <div className="w-1/3"><button className="w-full text-center font-semibold text-2xl">{headElements.todos_name}</button></div>
+                                <div className="w-1/3"><button className="w-full text-right">{headElements.todos_important.toString()}</button></div>
                             </div>
                             <div className="toDoDetailBody w-full">
                             <div className="toDoDetailHeader w-full border-b-2 border-gray-400 p-3 grid grid-cols-5">

@@ -4,12 +4,18 @@ import useAuth from "../hooks/useAuth";
 
 function Detail(props) {
     const {isAuthenticated,setIsAuthenticated} = useAuth();
+    let id;
+    if(props.location.state) {
+        id = props.location.state.id;
+    } else {
+        id = window.location.hash.replace(/\D/g,'');
+    }
 
     return (
         <ToDoDetail 
         isAuthenticated={isAuthenticated}
         setIsAuthenticated={setIsAuthenticated}
-        id={props.location.state.id}
+        id={id}
         />
     )
 }

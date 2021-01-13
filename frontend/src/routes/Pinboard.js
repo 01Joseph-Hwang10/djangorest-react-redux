@@ -14,7 +14,6 @@ function Pinboard() {
             isAuthenticated={isAuthenticated}
             setIsAuthenticated={setIsAuthenticated}
             pinboard={true}
-            user_id={json_cookie.user_id}
             />
             <ToDoLists 
             isAuthenticated={isAuthenticated}

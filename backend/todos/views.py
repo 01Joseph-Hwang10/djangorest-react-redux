@@ -88,6 +88,7 @@ class ToDoContainerViewSet(viewsets.ModelViewSet):
     def create(self, request):
         try:
             post_data = request.data
+            print(post_data)
             print(post_data['csrfmiddlewaretoken'])
             todos_name=post_data['todos_name']
             todos_important=bool(post_data['todos_important'])
@@ -117,7 +118,7 @@ class ToDoContainerViewSet(viewsets.ModelViewSet):
                 updated=patching_object['updated'],
                 created_by_id=patching_object['created_by_id'],
                 todos_name=patching_object['todos_name'],
-                todos_important=patching_object['todos_important'],
+                todos_important=bool(patching_object['todos_important']),
                 )
             new_object.save()
             return response.Response(data="Saved successfully")
