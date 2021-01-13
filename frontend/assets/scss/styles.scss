@@ -1,10 +1,10 @@
 @tailwind base;
 @tailwind components;
 
-.input1 {
+input {
     @apply bg-gray-100;
     &:focus {
-        @apply bg-yellow-100;
+        @apply bg-yellow-100 border-none;
     }
 }
 

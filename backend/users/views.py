@@ -48,28 +48,6 @@ class CheckAuthView(generics.CreateAPIView):
         except Exception:
             return response.Response(data="Something went wrong")
 
-class ProfileView(generics.CreateAPIView):
-
-    queryset = models.User.objects.all()
-
-    def post(self,request):
-        try:
-            post_data = request.data
-            token = post_data['token']
-            user_id = int(post_data['user_id'])
-            token_obj=Token.objects.get(key=token)
-            user_obj=models.User.objects.get(id=user_id)
-            if token_obj and token_obj.user.id==user_id:
-                if user_obj and user_obj.auth_token.key==token_obj.key and user_obj.auth_token.key==token:
-                    return JsonResponse(data={
-                        "auth":True,
-                        "user_id":user_id,
-                        "token":token,
-                        "description":"Authorization successful",
-                    })
-            raise Exception
-        except Exception:
-            return response.Response(data="Something went wrong")
 
 
 class SignUpView(generics.CreateAPIView):

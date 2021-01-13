@@ -6,17 +6,21 @@ import Navigation from './modals/Navigation';
 import Login from './routes/auth/LogIn';
 import SignUp from './routes/auth/SignUp';
 import Pinboard from './routes/Pinboard';
+import Footer from './modals/Footer';
 
 
 function App(props) {
   return (
     <HashRouter>
       <Navigation />
+      <div style={{minHeight:"75vh"}}>
       <Route path="/login/signup" exact={true} component={SignUp} />
       <Route path="/login" exact={true} component={Login} />
       <Route path="/" exact={true} component={Home} />
       <Route path="/detail/:id" component={Detail} />
       <Route path="/pinboard/:user_id" component={Pinboard} />
+      </div>
+      <Footer />
     </HashRouter>
   );
 }

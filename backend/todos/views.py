@@ -88,7 +88,6 @@ class ToDoContainerViewSet(viewsets.ModelViewSet):
     def create(self, request):
         try:
             post_data = request.data
-            print(post_data)
             print(post_data['csrfmiddlewaretoken'])
             todos_name=post_data['todos_name']
             todos_important=bool(post_data['todos_important'])

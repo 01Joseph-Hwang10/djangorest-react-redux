@@ -1,6 +1,5 @@
 import React from 'react';
 import CSRFToken from '../csrftoken';
-import axios from 'axios';
 
 function ToDoCard(props) {
 

@@ -10,8 +10,8 @@ Fix left:
 Primary Task left:
 
 0. Profile --- Done!!!
-1. To-Do container settings(e.g. delete, private)
-2. To-Do Important button in detail page
+1. To-Do container settings(e.g. delete) --- Done!!
+2. To-Do Important button in detail page --- Done!!
 3. Friends System
 4. CSS!!!
 5. Swipable cards

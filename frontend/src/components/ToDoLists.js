@@ -51,6 +51,7 @@ class ToDoLists extends React.Component {
                 .catch(error => console.log(error));
                 
                 todos_name.value="";
+                todos_important.checked=false;
             };
 
             const updatePartials = (e) => {
@@ -99,9 +100,8 @@ class ToDoLists extends React.Component {
                         
                         <div className="toDos w-11/12 mt-5 border rounded mx-auto">
                             <div className="toDoDetailHeader w-full border-b-2 border-black flex">
-                                <div className="flex justify-between w-11/12 p-3">
+                                <div className="flex justify-start w-11/12 p-3">
                                     <h1>To-Do</h1>
-                                    <h1></h1>
                                 </div>
                                 <div className="felx justify-center w-1/12 p-3">
                                     <h1>Star</h1>

@@ -39,9 +39,12 @@ function Navigation(props) {
     if (isAuthenticated) {
 
         return (
-        <div className="flex justify-between w-full p-3 border-b-2 border-black">
-            <div className="ml-3"><Link to='/'><span>myToDoSNS</span></Link></div>
-            <div className="flex mr-3">
+        <div className="flex justify-between items-center w-full p-3 border-b-2 border-black">
+            <div className="mx-3 flex justify-start items-center">
+                <Link to='/'><span>myToDoSNS</span></Link>
+                <input placeholder="Search..." className="ml-3 text-gray-400 rounded-lg p-1 bg-white text-left border-2 border-gray-400"></input>
+            </div>
+            <div className="flex mr-3 justify-end items-center">
                 <div className="mx-3">
                     <Link to={{
                     pathname:`/pinboard/${json_cookie.user_id}/`
@@ -53,7 +56,6 @@ function Navigation(props) {
                     <button id="menu_btn" onClick={switchDisplay}>Menu</button>
                     <div className="absolute right-px flex flex-col bg-gray-100 border border-gray-400" style={{display:'none'}} id="menu">
                         <Link><button className="block p-3 border-b border-gray-400" onClick={logOut}>Log out</button></Link>
-
                         <Link><span className="block p-3">Settings</span></Link>
                     </div>
                 </div>
