@@ -18,6 +18,14 @@ class ToDoLists extends React.Component {
     }
     render() {
         const { isLoading, toDos, toDosCount } = this.state;
+        const checkResponse = (response) => {
+            while (!response) {
+                if (response) {
+                    break;
+                }
+            }
+            this.getToDos();
+        }
         if (this.props.pinboard && toDos && this.props.isAuthenticated && json_cookie.user_id) {
             const user_id = json_cookie.user_id;
             const filteredToDos = toDos.filter(toDo=>toDo.created_by===Number(user_id));
@@ -26,20 +34,16 @@ class ToDoLists extends React.Component {
                 const todos_name = document.getElementsByName("todos_name")[0];
                 const todos_important = document.getElementsByName("todos_important")[0];
                 const created_by = user_id;
-                // const csrftoken = document.getElementsByName("csrfmiddlewaretoken")[0];
-                const post_data = {
+                const csrftoken = document.getElementsByName("csrfmiddlewaretoken")[0];
+                let post_data = {
                     todos_name:todos_name.value,
                     todos_important:todos_important.value,
-                    created_by:created_by,
-                    // csrftoken:csrftoken.value
+                    created_by:created_by
                 };
-                const checkResponse = (response) => {
-                    while (!response) {
-                        if (response) {
-                            break;
-                        }
-                    }
-                    this.getToDos();
+                if(csrftoken.value) {
+                    post_data.csrfmiddlewaretoken = csrftoken.value;
+                } else {
+                    post_data.csrfmiddlewaretoken = false;
                 }
                 axios
                 .post('/backend/todos-api/todo_container/',post_data)
@@ -48,6 +52,42 @@ class ToDoLists extends React.Component {
                 
                 todos_name.value="";
             };
+
+            const updatePartials = (e) => {
+                const currentState = Boolean(e.target.innerText);
+                const id = e.target.parentNode.parentNode.childNodes[0].childNodes[0].getAttribute("href").replace(/\D/g,'');
+                const csrftoken = document.getElementsByName("csrfmiddlewaretoken")[0];
+                const switchTo = async (switchto) => {
+                    let data = {
+                        data:switchto,
+                        id:id,
+                        type:"todos_important"
+                    }
+                    if(csrftoken.value) {
+                        data.csrfmiddlewaretoken = csrftoken.value;
+                    } else {
+                        data.csrfmiddlewaretoken = false;
+                    }
+                        // const config = {
+                        //     headers: {
+                        //         'Accept': 'application/json',
+                        //         'Content-Type': 'application/json',
+                        //         'X-CSRFToken': csrftoken
+                        //       }
+                        // }
+                        await axios
+                        .patch(`/backend/todos-api/todo_container/${id}.json`,data)
+                        .then(response => checkResponse(response))
+                        .catch(error => console.log(error));
+                    }
+                if(currentState) {
+                    switchTo(false);
+                } else {
+                    switchTo(true);
+                }
+                
+            };
+            
 
 
             return (<section className="container">
@@ -61,7 +101,7 @@ class ToDoLists extends React.Component {
                             <div className="toDoDetailHeader w-full border-b-2 border-black flex">
                                 <div className="flex justify-between w-11/12 p-3">
                                     <h1>To-Do</h1>
-                                    <h1>Made by</h1>
+                                    <h1></h1>
                                 </div>
                                 <div className="felx justify-center w-1/12 p-3">
                                     <h1>Star</h1>
@@ -90,11 +130,12 @@ class ToDoLists extends React.Component {
                                                         created_username={toDo.created_username}
                                                         todos_name={toDo.todos_name}
                                                         todos_important={toDo.todos_important}
+                                                        pinboard={true}
                                                     />
                                                 </Link>
                                             </div>
                                             <div className="w-1/12 flex justify-center border p-3">
-                                                <span>{toDo.todos_important.toString()}</span>
+                                                <button onClick={updatePartials}>{toDo.todos_important.toString()}</button >
                                             </div>
                                         </div>
                                         

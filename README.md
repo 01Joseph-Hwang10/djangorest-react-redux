@@ -4,6 +4,7 @@ Goal: To use djangorestapi as backend, react.js as frontend, and redux as data h
 
 Task left:
 
+0. Profile
 1. To-Do container settings(e.g. delete, private)
 2. To-Do Important button in detail page
 3. csrf auth in backend

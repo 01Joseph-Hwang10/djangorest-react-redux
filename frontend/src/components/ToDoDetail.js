@@ -76,9 +76,13 @@ class ToDoDetail extends React.Component {
                         to_do_belongs:to_do_belongs,
                         to_do_name:to_do_name.value,
                         to_do_description:to_do_description.value,
-                        to_do_order:newOrder,
-                        csrfmiddlewaretoken:csrftoken.value
+                        to_do_order:newOrder
                         };
+                    if(csrftoken.value) {
+                        post_data.csrfmiddlewaretoken = csrftoken.value;
+                    } else {
+                        post_data.csrfmiddlewaretoken = false;
+                    }
     
     
                     const checkResponse = (response) => {

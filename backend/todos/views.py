@@ -28,6 +28,7 @@ class ToDoViewSet(viewsets.ModelViewSet):
     def create(self, request):
         try:
             post_data = request.data
+            print(post_data['csrfmiddlewaretoken'])
             id=int(models.ToDo.objects.count()) + int(1)
             to_do_belongs=post_data['to_do_belongs']
             to_do_name=post_data['to_do_name']
@@ -54,6 +55,7 @@ class ToDoViewSet(viewsets.ModelViewSet):
     def partial_update(self, request,pk,format):
         try:
             data = request.data
+            print(data['csrfmiddlewaretoken'])
             data_id = int(data['id'])
             data_type = str(data['type'])
             patching_object = list(models.ToDo.objects.filter(id=data_id).values())[0]
@@ -86,6 +88,7 @@ class ToDoContainerViewSet(viewsets.ModelViewSet):
     def create(self, request):
         try:
             post_data = request.data
+            print(post_data['csrfmiddlewaretoken'])
             todos_name=post_data['todos_name']
             todos_important=bool(post_data['todos_important'])
             created_by_id=int(post_data['created_by'])
@@ -101,28 +104,25 @@ class ToDoContainerViewSet(viewsets.ModelViewSet):
             return JsonResponse(code=500, data="Internal Server Error")
 
     def partial_update(self, request,pk,format):
-        # try:
+        try:
             data = request.data
-            print(data)
-            # data_id = int(data['id'])
-            # data_type = str(data['type'])
-            # patching_object = list(models.ToDo.objects.filter(id=data_id).values())[0]
-            # patching_object[data_type]=data['data']
-            # patching_object['updated']= datetime.datetime.now()
-            # new_object =models.ToDoContainer(
-            #     id=patching_object['id'],
-            #     created=patching_object['created'],
-            #     updated=patching_object['updated'],
-            #     to_do_belongs_id=patching_object['to_do_belongs_id'],
-            #     to_do_name=patching_object['to_do_name'],
-            #     to_do_description=patching_object['to_do_description'],
-            #     to_do_completed=patching_object['to_do_completed'],
-            #     to_do_order=patching_object['to_do_order'],
-            #     )
-            # new_object.save()
+            print(data['csrfmiddlewaretoken'])
+            data_id = int(data['id'])
+            data_type = str(data['type'])
+            patching_object = list(models.ToDoContainer.objects.filter(id=data_id).values())[0]
+            patching_object[data_type]=data['data']
+            new_object=models.ToDoContainer(
+                id=patching_object['id'],
+                created=patching_object['created'],
+                updated=patching_object['updated'],
+                created_by_id=patching_object['created_by_id'],
+                todos_name=patching_object['todos_name'],
+                todos_important=patching_object['todos_important'],
+                )
+            new_object.save()
             return response.Response(data="Saved successfully")
-        # except Exception:
-            # return JsonResponse(code=500, data="Internal Server Error")
+        except Exception:
+            return JsonResponse(code=500, data="Internal Server Error")
 
     # def list(self, request, *args, **kwargs):
     #     queryset = self.filter_queryset(self.get_queryset())

@@ -23,7 +23,7 @@ function ToDoItem(props) {
     
         const updatePartials = (e) => {
             const currentState = e.target.innerText;
-            const csrftoken = document.getElementsByName("csrfmiddlewaretoken").value;
+            const csrftoken = document.getElementsByName("csrfmiddlewaretoken")[0];
             let div;
             let button;
             if (currentState){
@@ -36,7 +36,11 @@ function ToDoItem(props) {
             const buttonNumber = Number(button.id.slice(1,2));
             const patchToDo = async (form,data,button) => {
                 data.id=Number(props.id);
-                data.csrfmiddlewaretoken=csrftoken;
+                if(csrftoken.value) {
+                    data.csrfmiddlewaretoken = csrftoken.value;
+                } else {
+                    data.csrfmiddlewaretoken = false;
+                }
                 const input = div.childNodes[1][0];
                 input.focus();
                 input.style.backgroundColor = "#fef3c7";
@@ -91,13 +95,17 @@ function ToDoItem(props) {
                 }
             } else if (buttonNumber===3) {
                 const patchBool = async (switchto) => {
-                    const csrftoken = document.getElementsByName("csrfmiddlewaretoken")[0].value;
-                    const post_data={
+                    const csrftoken = document.getElementsByName("csrfmiddlewaretoken")[0];
+                    let post_data={
                         data:Boolean(switchto),
                         type:"to_do_completed",
-                        id:props.id,
-                        csrfmiddlewaretoken:csrftoken
+                        id:props.id
                     };
+                    if(csrftoken.value) {
+                        post_data.csrfmiddlewaretoken = csrftoken.value;
+                    } else {
+                        post_data.csrfmiddlewaretoken = false;
+                    }
                     await axios
                     .patch(`/backend/todos-api/todo/${props.id}.json`,post_data)
                     .then(response => checkResponse(response))

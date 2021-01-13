@@ -57,6 +57,7 @@ class SignUpView(generics.CreateAPIView):
     def post(self, request):
         try:
             post_data = request.data
+            print(post_data['csrfmiddlewaretoken'])
             first_name=post_data['first_name']
             last_name=post_data['last_name']
             email=post_data['email']

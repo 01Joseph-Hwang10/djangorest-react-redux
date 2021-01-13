@@ -9,12 +9,12 @@ function Login(props) {
         e.preventDefault();
         const email = document.querySelector("#email_input").value;
         const password = document.querySelector("#password_input").value;
-        const csrftoken = document.getElementsByName("csrfmiddlewaretoken").value;
-        const post_data = {
+        const csrftoken = document.getElementsByName("csrfmiddlewaretoken")[0];
+        let post_data = {
             username:email,
-            password:password,
-            csrfmiddlewaretoken:csrftoken
+            password:password
         };
+        if(csrftoken.value) post_data.csrfmiddlewaretoken=csrftoken.value;
         axios
         .post('/backend/users-api/api-token-auth/',post_data)
         .then(response => {

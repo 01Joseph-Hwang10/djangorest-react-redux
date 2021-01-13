@@ -20,16 +20,20 @@ function SignUp(props) {
         const email = document.querySelector("#email_input").value;
         const password = document.querySelector("#password_input").value;
         const password_confirm = document.querySelector("#password_confirm_input").value;
-        const csrftoken = document.getElementsByName("csrfmiddlewaretoken").value;
+        const csrftoken = document.getElementsByName("csrfmiddlewaretoken")[0];
         if (document.cookie.length<=13) {
             if (password === password_confirm) {
-                const post_data = {
+                let post_data = {
                     first_name:first_name,
                     last_name:last_name,
                     email:email,
-                    password:password,
-                    csrfmiddlewaretoken:csrftoken
+                    password:password
                 };
+                if(csrftoken.value) {
+                    post_data.csrfmiddlewaretoken = csrftoken.value;
+                } else {
+                    post_data.csrfmiddlewaretoken = false;
+                }
                 axios
                 .post('/backend/users-api/sign-up/',post_data)
                 .then(response => {
