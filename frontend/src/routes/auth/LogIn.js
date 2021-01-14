@@ -14,10 +14,11 @@ function Login(props) {
             username:email,
             password:password
         };
+        console.log(post_data);
         if(csrftoken.value) post_data.csrfmiddlewaretoken=csrftoken.value;
         axios
         .post('/backend/users-api/api-token-auth/',post_data)
-        .then(response => {
+        .then(response => {console.log(response);
             document.cookie = ("user_id="+response.data.user_id+"; path=/;");
             document.cookie = ("access_token="+response.data.token+"; path=/;");
             window.location.href = "/";

@@ -32,7 +32,15 @@ class Profile extends React.Component {
                         <div id="profile_image" style={{backgroundImage:`url("${profile.avatar}")`}} className="w-14 h-14 rounded-3xl bg-cover bg-center"></div>
                         <h3 className="text-lg">{profile.first_name}</h3>
                         <p className="text-sm">{profile.bio}</p>
-                        <button className="button1 p-1 w-1/2 mt-2"><Link to={{pathname:`/pinboard/${profile.id}/setttings`}}>Settings</Link></button>
+                        <button className="button1 p-1 w-1/2 mt-2"><Link to={{
+                            pathname:`/pinboard/${profile.id}/setttings`,
+                            state: {
+                                nickname:profile.first_name,
+                                bio:profile.bio,
+                                avatar:profile.avatar,
+                                user_id:json_cookie.user_id
+                            }
+                            }}>Settings</Link></button>
                     </div>
                     <div className="w-full sm:w-1/2 sm:flex-1 flex flex-col justify-center items-center p-3 border m-1">
                         <h1 className="text-xl font-bold">Status</h1>

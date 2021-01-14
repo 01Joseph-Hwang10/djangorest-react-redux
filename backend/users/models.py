@@ -14,7 +14,7 @@ from rest_framework.authtoken.models import Token
 class User(AbstractUser):
 
     bio = models.TextField(max_length=200,blank=True,null=True)
-    avatar = models.ImageField(blank=True, null=True, upload_to="avatars",default='uploads/person-icon.png')
+    avatar = models.ImageField(blank=True, null=True, upload_to="avatars",default='avatars/person-icon.png')
 
     class Meta:
         abstract = False

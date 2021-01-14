@@ -27,4 +27,8 @@ urlpatterns = [
     path('backend/todos-api/', include("todos.urls", namespace="todos")),
     path('backend/api-auth/',
          include('rest_framework.urls', namespace='rest_framework')),
-] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+] 
+
+if settings.DEBUG: 
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+

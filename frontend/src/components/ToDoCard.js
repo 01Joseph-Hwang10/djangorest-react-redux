@@ -3,22 +3,12 @@ import CSRFToken from '../csrftoken';
 
 function ToDoCard(props) {
 
-    if(props.pinboard){
-        return (
-            <div className="toDoCard w-full flex justify-start p-3 border">
-                <CSRFToken />
-                <h1>{props.todos_name}</h1>
-            </div>
-        );
-    } else {
-        return (
-            <div className="toDoCard w-full flex justify-between p-3 border">
-                <h1>{props.todos_name}</h1>
-                <h1>{props.created_username}</h1>
-            </div>
-        );
-    }
-
+    return (
+        <div className="toDoCard w-full flex justify-start p-3">
+            <CSRFToken />
+            <h1>{props.todos_name}</h1>
+        </div>
+    );
 
 };
 

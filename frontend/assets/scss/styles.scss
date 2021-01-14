@@ -9,9 +9,9 @@ input {
 }
 
 .input2 {
-    @apply w-11/12 ml-3 text-gray-400 rounded-lg p-1 bg-white text-left border-2 border-gray-400;
+    @apply w-11/12 text-gray-400 rounded-lg p-1 bg-white text-left border-2 border-gray-400;
     &:focus {
-        @apply bg-yellow-100 border-none w-11/12 ml-3 text-gray-400 rounded-lg p-1 bg-white text-left border-2;
+        @apply bg-yellow-100 border-none w-11/12 text-gray-400 rounded-lg p-1 bg-white text-left border-2;
     }
 }
 

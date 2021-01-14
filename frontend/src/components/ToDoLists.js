@@ -4,6 +4,7 @@ import ToDoCard from './ToDoCard';
 import { Link } from 'react-router-dom';
 import json_cookie from '../routes/auth/cookie';
 import CSRFToken from '../csrftoken';
+import Avatar from '../modals/Avatar';
 
 class ToDoLists extends React.Component {
     state = {
@@ -37,9 +38,13 @@ class ToDoLists extends React.Component {
                 const csrftoken = document.getElementsByName("csrfmiddlewaretoken")[0];
                 let post_data = {
                     todos_name:todos_name.value,
-                    todos_important:todos_important.value,
                     created_by:created_by
                 };
+                if (todos_important.checked) {
+                    post_data.todos_important = true;
+                } else {
+                    post_data.todos_important = false;
+                }
                 if(csrftoken.value) {
                     post_data.csrfmiddlewaretoken = csrftoken.value;
                 } else {
@@ -181,32 +186,46 @@ class ToDoLists extends React.Component {
             ) : (
                     <div className="toDos w-11/12 mt-5 border rounded mx-auto">
                         <div className="toDoDetailHeader w-full border-b-2 border-black p-3 flex justify-between">
-                            <h1>To-Do</h1>
-                            <h1>Made by</h1>
+                            <div className="w-10/12"><h1>To-Do</h1></div>
+                            <div className="w-2/12 flex justify-center items-center"><h1>Made by</h1></div>
                         </div>
                         {
                             toDos.map(toDo => {
                                 return (
-                                    <Link
-                                        to={{
-                                            pathname: `/detail/${toDo.id}/`,
-                                            state: {
-                                                key: toDo.id,
-                                                id: toDo.id,
-                                                created_by: toDo.created_by,
-                                                todos_name: toDo.todos_name,
-                                                todos_important: toDo.todos_important
-                                            }
-                                        }}>
-                                        <ToDoCard
-                                            key={toDo.id}
-                                            id={toDo.id}
-                                            created_username={toDo.created_username}
-                                            todos_name={toDo.todos_name}
-                                            todos_important={toDo.todos_important}
-                                            pinboard={false}
-                                        />
-                                    </Link>
+                                    <div className="flex items-center border">
+                                        <div className="w-10/12 p-1">
+                                            <Link
+                                                to={{
+                                                    pathname: `/detail/${toDo.id}/`,
+                                                    state: {
+                                                        key: toDo.id,
+                                                        id: toDo.id,
+                                                        created_by: toDo.created_by,
+                                                        todos_name: toDo.todos_name,
+                                                        todos_important: toDo.todos_important
+                                                    }
+                                                }}>
+                                                <ToDoCard
+                                                    key={toDo.id}
+                                                    id={toDo.id}
+                                                    created_username={toDo.created_username}
+                                                    todos_name={toDo.todos_name}
+                                                    todos_important={toDo.todos_important}
+                                                    pinboard={false}
+                                                />
+                                            </Link>
+                                        </div>
+                                        <div className="w-2/12 p-1">
+                                            <Link>
+                                                <Avatar 
+                                                key={toDo.created_by}
+                                                id={toDo.created_by}
+                                                created_username={toDo.created_username}
+                                                created_by={toDo.created_by}
+                                                />
+                                            </Link>
+                                        </div>
+                                    </div>
                                 )
                             })
                         }

@@ -28,7 +28,8 @@ class ToDoDetail extends React.Component {
                 todos_name:data.todos_name,
                 todos_important:data.todos_important,
                 todos_id:data.id,
-                created_by:Number(data.created_by)
+                created_by:Number(data.created_by),
+                created_username:data.created_username
             }});
         } else {
             const { data } = await axios.get(`/backend/todos-api/public_todo_container/${window.location.hash.replace(/\D/g,'')}.json`);
@@ -39,7 +40,8 @@ class ToDoDetail extends React.Component {
                     todos_name:data.todos_name,
                     todos_important:data.todos_important,
                     todos_id:data.id,
-                    created_by:Number(data.created_by)
+                    created_by:Number(data.created_by),
+                    created_username:data.created_username
                 }});
             }
         }
@@ -307,7 +309,7 @@ class ToDoDetail extends React.Component {
                 ) : (
                         <div className="w-11/12 mt-5 mx-auto border border-gray-300 rounded">
                             <div className="toDoDetailHeader w-full border-b-2 border-black p-3 flex justify-center">
-                                <div className="w-1/3 text-left"></div>
+                                    <div className="w-1/3 text-left"><h1 className="text-left">{headElements.created_username}</h1></div>
                                     <div className="w-1/3"><h1 className="text-center font-semibold text-2xl">{headElements.todos_name}</h1></div>
                                     <div className="w-1/3"><h1 className="text-right">{headElements.todos_important.toString()}</h1></div>
                                 </div>

@@ -4,15 +4,19 @@ from django.core.serializers.json import DjangoJSONEncoder
 from django.http import JsonResponse
 from rest_framework import viewsets, permissions, response, generics
 from rest_framework.authtoken.models import Token
-from rest_framework.authtoken import views
+from rest_framework.authtoken import views as authtoken_view
 from .serializers import UserSerializer, GroupSerializer
 from . import models
 
 
-class ObtainTokenView(views.ObtainAuthToken):
+class ObtainTokenView(authtoken_view.ObtainAuthToken):
 
     def post(self, request, *args, **kwargs):
         try:
+            # container={}
+            # post_data=request.data
+            # container['username'] = post_data['username']
+            # container['password'] = post_data['password']
             serializer = self.get_serializer(data=request.data)
             serializer.is_valid(raise_exception=True)
             user = serializer.validated_data['user']
@@ -22,6 +26,7 @@ class ObtainTokenView(views.ObtainAuthToken):
                 'user_id':user.id
                 })
         except Exception:
+            print("wrong?")
             return response.Response(data="Something went wrong")
 
 
@@ -64,13 +69,16 @@ class SignUpView(generics.CreateAPIView):
             email=post_data['email']
             username=email
             password=post_data['password']
+            password_confirm=post_data['password_confirm']
+            if not password==password_confirm:
+                raise Exception
             new_object =models.User(
                 username=username,
-                password=password,
                 first_name=first_name,
                 last_name=last_name,
                 email=email,
                 )
+            new_object.set_password(password)
             new_object.save()
             return response.Response(data="Saved successfully")
         except Exception:

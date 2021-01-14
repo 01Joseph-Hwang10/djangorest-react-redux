@@ -1,6 +1,7 @@
 import React from 'react';
 import axios from 'axios';
 import CSRFToken from '../../csrftoken';
+import json_cookie from './cookie';
 
 function SignUp(props) {
 
@@ -20,13 +21,14 @@ function SignUp(props) {
         const password = document.querySelector("#password_input").value;
         const password_confirm = document.querySelector("#password_confirm_input").value;
         const csrftoken = document.getElementsByName("csrfmiddlewaretoken")[0];
-        if (document.cookie.length<=13) {
-            if (password === password_confirm) {
+        if ( !json_cookie.user_id.length>0 || !json_cookie.access_token.length>0) {
+            if (String(password) === String(password_confirm)) {
                 let post_data = {
                     first_name:first_name,
                     last_name:"",
                     email:email,
-                    password:password
+                    password:password,
+                    password_confirm:password_confirm
                 };
                 if(csrftoken.value) {
                     post_data.csrfmiddlewaretoken = csrftoken.value;
@@ -43,9 +45,13 @@ function SignUp(props) {
                     alert("something went wrong");
                 });
             } else {
+                document.cookie = "user_id=; path=/;";
+                document.cookie = "access_token=; path=/;";
                 alert("password and your password confirmation doesn't match!");
             }
         } else {
+            document.cookie = "user_id=; path=/;";
+            document.cookie = "access_token=; path=/;";
             alert("You can't make an account");
         }
     };
