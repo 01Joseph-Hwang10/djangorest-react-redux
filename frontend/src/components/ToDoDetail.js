@@ -3,6 +3,7 @@ import axios from 'axios';
 import ToDoItem from './ToDoItem';
 import CSRFToken from '../csrftoken';
 import json_cookie from  '../routes/auth/cookie';
+import {Link} from 'react-router-dom';
 
 class ToDoDetail extends React.Component {
     state = {
@@ -311,8 +312,8 @@ class ToDoDetail extends React.Component {
                     </div>
                 ) : (
                         <div className="w-11/12 mt-5 mx-auto border border-gray-300 rounded">
-                            <div className="toDoDetailHeader w-full border-b-2 border-black p-3 flex justify-center">
-                                    <div className="w-1/3 text-left"><h1 className="text-left">{headElements.created_username}</h1></div>
+                            <div className="toDoDetailHeader w-full border-b-2 border-black p-3 flex justify-center items-center">
+                                    <div className="w-1/3 text-left"><Link to={{pathname:`/user_profile/${headElements.created_by}`}}><span className="text-left">{headElements.created_username}</span></Link></div>
                                     <div className="w-1/3"><h1 className="text-center font-semibold text-2xl">{headElements.todos_name}</h1></div>
                                     <div className="w-1/3"><h1 className="text-right">{headElements.todos_important.toString()}</h1></div>
                                 </div>

@@ -93,22 +93,19 @@ class UserViewSet(viewsets.ModelViewSet):
     serializer_class = UserSerializer
     permission_classes = (permissions.IsAuthenticated,)
 
-    def retrieve(self, request, *args, **kwargs):
-        instance = self.get_object()
-        serializer = self.get_serializer(instance)
-        return JsonResponse(serializer.data)
 
     def partial_update(self, request, *args, **kwargs):
         try:
             data=request.data
-            user=models.User.objects.get(id=data['id'])
-            following_user_id=int(request.data['following'])
+            following_user_id=data['id']
+            following_user=models.User.objects.get(id=following_user_id)
+            followed_user_id=int(request.data['following'])
             if(bool(data['data'])):
-                user.following.add(models.User.objects.get(id=following_user_id))
-                user.save()
+                following_user.following.add(models.User.objects.get(id=followed_user_id))
+                following_user.save()
             else:
-                user.following.remove(models.User.objects.get(id=following_user_id))
-                user.save()
+                following_user.following.remove(models.User.objects.get(id=followed_user_id))
+                following_user.save()
             return response.Response(data="Saved successfully")
         except Exception:
             kwargs['partial'] = True

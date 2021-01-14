@@ -41,5 +41,6 @@ class CustomUserAdmin(UserAdmin):
         "last_name",
         "is_active",
         "my_todos",
-        "following_count"
+        "following_count",
+        "followers_count"
     )

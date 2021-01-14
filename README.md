@@ -12,15 +12,21 @@ Primary Task left:
 0. Pinboard --- Done!!!
 1. To-Do container settings(e.g. delete) --- Done!!
 2. To-Do Important button in detail page --- Done!!
-3. Follow System 
+3. Follow System --- Done!!!
 4. Profile --- Done!!!
-4. CSS!!!
-5. Swipable cards
-6. Draggable ToDos
+5. Get My Important Task
+6. CSS (To-Do detail description, To-Do Items Card, To-Do Detail, To-Do Container)
+7. Swipable cards
+8. Draggable ToDos
 
 Secondary Task left:
 
 1. To-Do Detail
+2. Social Detail
+3. Status More
+4. To-Do Private
+5. Info(Notification)
+6. Settings
 
 After task :
 

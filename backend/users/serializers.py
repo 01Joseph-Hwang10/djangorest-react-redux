@@ -28,6 +28,7 @@ from . import models
 class UserSerializer(HyperlinkedModelSerializer):
     avatar = serializers.ImageField(use_url=True)
     following = serializers.PrimaryKeyRelatedField(many=True, read_only=False,queryset=models.User.objects.all())
+    followers = serializers.PrimaryKeyRelatedField(many=True, read_only=False,queryset=models.User.objects.all())
 
     class Meta:
         model = models.User
@@ -44,6 +45,8 @@ class UserSerializer(HyperlinkedModelSerializer):
                     'avatar',
                     'following',
                     'following_count',
+                    'followers',
+                    'followers_count'
                     )
         extra_kwargs = {
             'url': {

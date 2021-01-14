@@ -70,7 +70,7 @@ class Profile extends React.Component {
                         </div>
                         <div className="flex flex-col justify-center items-center p-3 border m-1 mt-2">
                             <h1 className="text-xl font-bold">Social</h1>
-                            <h4 className="text-sm">{profile.following_count} Following</h4>
+                            <h4 className="text-sm">{profile.followers_count} Followers</h4>
                             <button className="rounded bg-red-400 text-white font-bold p-1 w-1/2 mt-2">Detail</button>
                         </div>
                     </div>
@@ -117,7 +117,7 @@ class Profile extends React.Component {
                         button.innerText = "Following";
                         button.style.backgroundColor = "#9CA3AF";
                     } else {
-                        data.data=true;
+                        data.data=false;
                         axios
                         .patch(`/backend/users-api/users/${json_cookie.user_id}/`,data,config)
                         .then(response=>checkResponse(response))
@@ -153,7 +153,7 @@ class Profile extends React.Component {
                         </div>
                         <div className="flex flex-col justify-center items-center p-3 border m-1 mt-2">
                             <h1 className="text-xl font-bold">Social</h1>
-                            <h4 className="text-sm">{profile.following_count} Following</h4>
+                            <h4 className="text-sm">{profile.followers_count} Followers</h4>
                             <button className="rounded bg-red-400 text-white font-bold p-1 w-1/2 mt-2">Detail</button>
                         </div>
                     </div>

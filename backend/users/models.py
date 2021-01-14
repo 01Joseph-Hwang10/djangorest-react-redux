@@ -26,3 +26,10 @@ class User(AbstractUser):
 
     def following_count(self):
         return self.following.count()
+
+    def followers(self):
+        return self.users.all()
+
+    def followers_count(self):
+        return self.users.count()
+
