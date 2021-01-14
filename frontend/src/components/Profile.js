@@ -3,13 +3,22 @@ import json_cookie from '../routes/auth/cookie';
 // import CSRFToken from '../csrftoken';
 import axios from 'axios';
 import {Link} from 'react-router-dom';
+import CSRFToken from '../csrftoken';
 
 class Profile extends React.Component {
     state={
         isLoading:true,
     };
     getProfile = async () => {
-        const { data } = await axios.get(`/backend/users-api/public_users/${json_cookie.user_id}.json`);
+        let id;
+        if (this.props.pinboard){
+            id=json_cookie.user_id
+        } else {
+            id=window.location.hash.replace(/\D/g,'');
+            const { data } = await axios.get(`/backend/users-api/public_users/${json_cookie.user_id}.json`);
+            this.setState({myProfile:data})
+        }
+        const { data } = await axios.get(`/backend/users-api/public_users/${id}.json`);
         this.setState({ profile: data, isLoading: false});
     }
     componentDidMount() {
@@ -17,7 +26,7 @@ class Profile extends React.Component {
     }
     
     render() {
-        const {profile,isLoading} = this.state;
+        const {myProfile,profile,isLoading} = this.state;
 
         if (this.props.pinboard){
             return (<section className="container">
@@ -42,11 +51,18 @@ class Profile extends React.Component {
                             }
                             }}>Settings</Link></button>
                     </div>
-                    <div className="w-full sm:w-1/2 sm:flex-1 flex flex-col justify-center items-center p-3 border m-1">
-                        <h1 className="text-xl font-bold">Status</h1>
-                        <h3 className="text-lg">Active</h3>
-                        <p className="text-sm">{profile.my_todos} To-Do Container</p>
-                        <button className="rounded bg-green-400 text-white font-bold p-1 w-1/2 mt-2">Detail</button>
+                    <div className="flex flex-col sm:flex-1 w-full sm:w-1/2">
+                        <div className="flex flex-col justify-center items-center p-3 border m-1">
+                            <h1 className="text-xl font-bold">Status</h1>
+                            <h3 className="text-lg">Active</h3>
+                            <p className="text-sm">{profile.my_todos} To-Do Container</p>
+                            <button className="rounded bg-green-400 text-white font-bold p-1 w-1/2 mt-2">More...</button>
+                        </div>
+                        <div className="flex flex-col justify-center items-center p-3 border m-1 mt-2">
+                            <h1 className="text-xl font-bold">Social</h1>
+                            <h4 className="text-sm">{profile.following_count} Following</h4>
+                            <button className="rounded bg-red-400 text-white font-bold p-1 w-1/2 mt-2">Detail</button>
+                        </div>
                     </div>
                 </div>
                 )}
@@ -54,6 +70,61 @@ class Profile extends React.Component {
                 
             )
         } else {
+
+            const switchFollow = () => {
+                if(json_cookie.user_id.length > 0 && json_cookie.access_token.length >0) {
+                    const button = document.getElementById("switchFollow");
+                    let currentState = button.innerText;
+                    const checkResponse = (response) => {
+                        while (!response) {
+                            if (response) {
+                                break;
+                            }
+                        }
+                        this.getProfile();
+                    }
+                    let data = {
+                        following:profile.id,
+                        id:json_cookie.user_id
+                    }
+                    const csrftoken = document.getElementsByName("csrfmiddlewaretoken")[0];
+                    if(csrftoken.value) {
+                        data.csrfmiddlewaretoken = csrftoken.value;
+                    } else {
+                        data.csrfmiddlewaretoken = false;
+                    }
+                    const config = {
+                        headers:{
+                            Authorization:`Token ${json_cookie.access_token}`
+                        }
+                    }
+                    if(currentState==="Follow") {
+                        data.data=true;
+                        axios
+                        .patch(`/backend/users-api/users/${json_cookie.user_id}/`,data,config)
+                        .then(response=>checkResponse(response))
+                        .catch(error=>console.log(error));
+                        button.innerText = "Following";
+                        button.style.backgroundColor = "#9CA3AF";
+                    } else {
+                        data.data=true;
+                        axios
+                        .patch(`/backend/users-api/users/${json_cookie.user_id}`,data,config)
+                        .then(response=>checkResponse(response))
+                        .catch(error=>console.log(error));
+                        button.innerText = "Follow";
+                        button.style.backgroundColor = "#60A5FA";
+                    }
+                }
+            };
+
+            let isFollowing="Follow";
+            let followColor= "#60A5FA";
+            if(profile && myProfile && profile.id in myProfile.following) {
+                isFollowing="Following";
+                followColor="#9CA3AF";
+            } 
+
             return (<section className="container">
                 {isLoading ? (
                     <div className="loader w-screen h-full flex justify-center items-center bg-gray-100">
@@ -66,13 +137,21 @@ class Profile extends React.Component {
                         <div id="profile_image" style={{backgroundImage:`url("${profile.avatar}")`}} className="w-14 h-14 rounded-3xl bg-cover bg-center"></div>
                         <h3 className="text-lg">{profile.first_name}</h3>
                         <p className="text-sm">{profile.bio}</p>
-                        <button className="rounded bg-gray-400 text-white font-bold p-1 w-1/2 mt-2">Follow</button>
+                        <CSRFToken />
+                        <button id="switchFollow" className="rounded text-white font-bold p-1 w-1/2 mt-2" style={{backgroundColor:followColor}} onClick={switchFollow}>{isFollowing}</button>
                     </div>
-                    <div className="w-full sm:w-1/2 sm:flex-1 flex flex-col justify-center items-center p-3 border m-1">
-                        <h1 className="text-xl font-bold">Status</h1>
-                        <h3 className="text-lg">Active</h3>
-                        <p className="text-sm">{profile.my_todos} To-Do Container</p>
-                        <button className="rounded bg-green-400 text-white font-bold p-1 w-1/2 mt-2">Detail</button>
+                    <div className="flex flex-col sm:flex-1 w-full sm:w-1/2">
+                        <div className="flex flex-col justify-center items-center p-3 border m-1">
+                            <h1 className="text-xl font-bold">Status</h1>
+                            <h3 className="text-lg">Active</h3>
+                            <p className="text-sm">{profile.my_todos} To-Do Container</p>
+                            <button className="rounded bg-green-400 text-white font-bold p-1 w-1/2 mt-2">More...</button>
+                        </div>
+                        <div className="flex flex-col justify-center items-center p-3 border m-1 mt-2">
+                            <h1 className="text-xl font-bold">Social</h1>
+                            <h4 className="text-sm">{profile.following_count} Following</h4>
+                            <button className="rounded bg-red-400 text-white font-bold p-1 w-1/2 mt-2">Detail</button>
+                        </div>
                     </div>
                 </div>
                 )}

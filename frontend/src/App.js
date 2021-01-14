@@ -8,6 +8,7 @@ import SignUp from './routes/auth/SignUp';
 import Pinboard from './routes/Pinboard';
 import Footer from './modals/Footer';
 import ProfileUpdate from './routes/ProfileUpdate';
+import UserProfile from './routes/UserProfile';
 
 
 function App(props) {
@@ -20,6 +21,7 @@ function App(props) {
       <Route path="/login/signup" exact component={SignUp} />
       <Route path="/detail/:id" component={Detail} />
       <Route path="/pinboard/:user_id" exact component={Pinboard} />
+      <Route path="/user_profile/:user_id" exact component={UserProfile} />
       <Route path="/pinboard/:user_id/setttings" exaxt component={ProfileUpdate} />
       </div>
       <Footer />

@@ -23,6 +23,13 @@ class CustomUserAdmin(UserAdmin):
                 )
             }
         ),
+        (
+            "Social",{
+                "fields":(
+                    "following",
+                )
+            }
+        ),
     )
 
     list_filter = UserAdmin.list_filter
@@ -34,4 +41,5 @@ class CustomUserAdmin(UserAdmin):
         "last_name",
         "is_active",
         "my_todos",
+        "following_count"
     )

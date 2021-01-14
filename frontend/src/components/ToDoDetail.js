@@ -213,19 +213,22 @@ class ToDoDetail extends React.Component {
             }
         
             const deleteToDo = async () => {
-                let token;
-                if(json_cookie.access_token) token = json_cookie.access_token;
-                const config = {
-                    headers:{
-                        Authorization:`Token ${token}`
+                const respond = window.confirm("Are you sure to delete this Container?\nThis action is not retreatable")
+                if (respond){
+                    let token;
+                    if(json_cookie.access_token) token = json_cookie.access_token;
+                    const config = {
+                        headers:{
+                            Authorization:`Token ${token}`
+                        }
                     }
+                    await axios
+                            .delete(`/backend/todos-api/todo_container/${id}.json`,config)
+                            .then(response => {
+                                window.location.replace(`http://localhost:3000/#/pinboard/${json_cookie.user_id}`);
+                            })
+                            .catch(error => console.log(error));
                 }
-                await axios
-                        .delete(`/backend/todos-api/todo_container/${id}.json`,config)
-                        .then(response => {
-                            window.location.replace(`http://localhost:3000/#/pinboard/${json_cookie.user_id}`);
-                        })
-                        .catch(error => console.log(error));
             };
 
             const switchDisplay = () => {
@@ -253,8 +256,8 @@ class ToDoDetail extends React.Component {
                                 <div className="text-left relative">
                                 <button id="toDoSettingsBtn" onClick={switchDisplay}>To-Do Menu</button>
                                     <div id="toDoSettings" className="absolute flex flex-col bg-gray-100 border border-gray-400" style={{display:'none'}}>
-                                        <button onClick={deleteToDo} className="block p-3 border-b border-gray-400">Delete</button>
-                                        <button className="block p-3">Private</button>
+                                        <button onClick={deleteToDo} className="block p-3 border-b border-gray-400 text-center">Delete</button>
+                                        <button className="block p-3 text-center">Private</button>
                                     </div>
                                 </div>
                                 <div><button onClick={updatePartials} id="h5" className="w-full text-center font-semibold text-2xl">{headElements.todos_name}</button></div>

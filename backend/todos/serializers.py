@@ -1,21 +1,24 @@
 from rest_framework.serializers import HyperlinkedModelSerializer, HyperlinkedRelatedField
 from . import models as todo_model
-from rest_framework.serializers import ReadOnlyField
+from rest_framework.serializers import ReadOnlyField, ImageField
 from users import models as user_model
 
 
 class ToDoContainerSerializer(HyperlinkedModelSerializer):
     created_by = ReadOnlyField(source='created_by.id')
     created_username = ReadOnlyField(source="created_by.username")
+    get_created_by_avatar = ImageField(use_url=True)
 
     class Meta:
         model = todo_model.ToDoContainer
         fields = (
-            'url', 'id',
+            'url', 
+            'id',
             'created',
             'updated',
             'created_by',
             'created_username',
+            'get_created_by_avatar',
             'todos_name',
             'todos_important',
             'todos_items_count',

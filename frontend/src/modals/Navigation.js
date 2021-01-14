@@ -55,8 +55,9 @@ function Navigation(props) {
                 <div className="relative">
                     <button id="menu_btn" onClick={switchDisplay}>Menu</button>
                     <div className="absolute right-px flex flex-col bg-gray-100 border border-gray-400" style={{display:'none'}} id="menu">
-                        <Link><button className="block p-3 border-b border-gray-400" onClick={logOut}>Log out</button></Link>
-                        <Link><span className="block p-3">Settings</span></Link>
+                        <Link><span className="block p-3 border-b border-gray-400 text-center">Info</span></Link>
+                        <button className="block p-3 border-b border-gray-400 text-center">Settings</button>
+                        <button className="block p-3 text-center" onClick={logOut}>Log out</button>
                     </div>
                 </div>
             </div>

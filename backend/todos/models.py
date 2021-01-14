@@ -13,6 +13,9 @@ class ToDoContainer(TimeStampedModel):
     todos_name = models.CharField(max_length=50)
     todos_important = models.BooleanField(default=False)
 
+    def get_created_by_avatar(self):
+        return self.created_by.avatar
+
     def get_todo_items(self):
         todo_items = []
         get_todo_items = self.todo.all()

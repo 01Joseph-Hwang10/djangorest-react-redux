@@ -13,7 +13,7 @@ Primary Task left:
 1. To-Do container settings(e.g. delete) --- Done!!
 2. To-Do Important button in detail page --- Done!!
 3. Friends System
-4. Profile
+4. Profile --- Done!!!
 4. CSS!!!
 5. Swipable cards
 6. Draggable ToDos

@@ -12,7 +12,7 @@ class ToDoLists extends React.Component {
     };
     getToDos = async () => {
         const { data } = await axios.get("/backend/todos-api/public_todo_container.json");
-        this.setState({ toDos: data.results, isLoading: false, toDosCount:data.results.length });
+        this.setState({ toDos: data.results, isLoading: false});
     }
     componentDidMount() {
         this.getToDos();
@@ -178,6 +178,13 @@ class ToDoLists extends React.Component {
                 }
             </section>)
         } else {
+            const created_by = window.location.hash.replace(/\D/g,'');
+            let filteredToDos;
+            if (toDos && created_by.length > 0) {
+                filteredToDos = toDos.filter(toDo=>toDo.created_by===Number(created_by));
+            } else {
+                filteredToDos = toDos;
+            }
             return (<section className="container">
             {isLoading ? (
                 <div className="loader w-screen h-screen flex justify-center items-center bg-gray-100">
@@ -190,10 +197,10 @@ class ToDoLists extends React.Component {
                             <div className="w-2/12 flex justify-center items-center"><h1>Made by</h1></div>
                         </div>
                         {
-                            toDos.map(toDo => {
+                            filteredToDos.map(toDo => {
                                 return (
                                     <div className="flex items-center border">
-                                        <div className="w-10/12 p-1">
+                                        <div className="w-9/12 p-1">
                                             <Link
                                                 to={{
                                                     pathname: `/detail/${toDo.id}/`,
@@ -215,13 +222,19 @@ class ToDoLists extends React.Component {
                                                 />
                                             </Link>
                                         </div>
-                                        <div className="w-2/12 p-1">
-                                            <Link>
+                                        <div className="w-3/12 p-1">
+                                            <Link to={{
+                                                pathname:`/user_profile/${toDo.created_by}`,
+                                                state:{
+                                                    created_by:toDo.created_by
+                                                }
+                                                }}>
                                                 <Avatar 
                                                 key={toDo.created_by}
                                                 id={toDo.created_by}
                                                 created_username={toDo.created_username}
                                                 created_by={toDo.created_by}
+                                                get_created_by_avatar={toDo.get_created_by_avatar}
                                                 />
                                             </Link>
                                         </div>

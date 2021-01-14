@@ -98,6 +98,22 @@ class UserViewSet(viewsets.ModelViewSet):
         serializer = self.get_serializer(instance)
         return JsonResponse(serializer.data)
 
+    def partial_update(self, request, *args, **kwargs):
+        try:
+            data=request.data
+            user=models.User.objects.get(id=data['id'])
+            following_user_id=int(request.data['following'])
+            if(bool(data['data'])):
+                user.following.add(models.User.objects.get(id=following_user_id))
+                user.save()
+            else:
+                user.following.remove(models.User.objects.get(id=following_user_id))
+                user.save()
+            return response.Response(data="Saved successfully")
+        except Exception:
+            kwargs['partial'] = True
+            return self.update(request, *args, **kwargs)
+
 
 class PublicUserViewSet(viewsets.ReadOnlyModelViewSet):
 
