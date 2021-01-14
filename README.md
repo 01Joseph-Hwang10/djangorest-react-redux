@@ -25,4 +25,4 @@ Secondary Task left:
 After task :
 
 0. Make it all component! (e.g. UpdatePartials, UpdateBool, Form)
-1. Seperate Public view and Private view
+1. Seperate Public view and Private view -- Done!!!

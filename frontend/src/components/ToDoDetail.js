@@ -20,7 +20,7 @@ class ToDoDetail extends React.Component {
         return 0;
     };
     if (this.props.id) {
-        const { data } = await axios.get(`/backend/todos-api/todo_container/${this.props.id}.json`);
+        const { data } = await axios.get(`/backend/todos-api/public_todo_container/${this.props.id}.json`);
         this.setState({ 
             toDoItems: data.get_todo_items.sort(sortByOrder), 
             isLoading: false, 
@@ -31,7 +31,7 @@ class ToDoDetail extends React.Component {
                 created_by:Number(data.created_by)
             }});
         } else {
-            const { data } = await axios.get(`/backend/todos-api/todo_container/${window.location.hash.replace(/\D/g,'')}.json`);
+            const { data } = await axios.get(`/backend/todos-api/public_todo_container/${window.location.hash.replace(/\D/g,'')}.json`);
             this.setState({ 
                 toDoItems: data.get_todo_items.sort(sortByOrder), 
                 isLoading: false, 
@@ -98,10 +98,16 @@ class ToDoDetail extends React.Component {
                         post_data.csrfmiddlewaretoken = false;
                     }
     
-    
+                    let token;
+                    if(json_cookie.access_token) token = json_cookie.access_token;
+                    const config = {
+                        headers:{
+                            Authorization:`Token ${token}`
+                        }
+                    }
     
                     axios
-                    .post("/backend/todos-api/todo/",post_data)
+                    .post("/backend/todos-api/todo/",post_data,config)
                     .then(response => checkResponse(response))
                     .catch(error => console.log(error));
     
@@ -142,8 +148,15 @@ class ToDoDetail extends React.Component {
                         //         'X-CSRFToken': csrftoken
                         //       }
                         // }
+                        let token;
+                        if(json_cookie.access_token) token = json_cookie.access_token;
+                        const config = {
+                            headers:{
+                                Authorization:`Token ${token}`
+                            }
+                        }
                         await axios
-                        .patch(`/backend/todos-api/todo_container/${id}.json`,data)
+                        .patch(`/backend/todos-api/todo_container/${id}.json`,data,config)
                         .then(response => checkResponse(response))
                         .catch(error => console.log(error));
                         form.remove();
@@ -177,8 +190,15 @@ class ToDoDetail extends React.Component {
                         } else {
                             post_data.csrfmiddlewaretoken = false;
                         }
+                        let token;
+                        if(json_cookie.access_token) token = json_cookie.access_token;
+                        const config = {
+                            headers:{
+                                Authorization:`Token ${token}`
+                            }
+                        }
                         await axios
-                        .patch(`/backend/todos-api/todo_container/${id}.json`,post_data)
+                        .patch(`/backend/todos-api/todo_container/${id}.json`,post_data,config)
                         .then(response => checkResponse(response))
                         .catch(error => console.log(error));
                     }
@@ -191,8 +211,15 @@ class ToDoDetail extends React.Component {
             }
         
             const deleteToDo = async () => {
+                let token;
+                if(json_cookie.access_token) token = json_cookie.access_token;
+                const config = {
+                    headers:{
+                        Authorization:`Token ${token}`
+                    }
+                }
                 await axios
-                        .delete(`/backend/todos-api/todo_container/${id}.json`)
+                        .delete(`/backend/todos-api/todo_container/${id}.json`,config)
                         .then(response => {
                             window.location.replace(`http://localhost:3000/#/pinboard/${json_cookie.user_id}`);
                         })
@@ -262,7 +289,7 @@ class ToDoDetail extends React.Component {
                                         <input type="text" className="input1 text-center" placeholder="description" name="to_do_description"></input>
                                         <span className="text-center">false</span>
                                         <input type="number" className="input1 text-center" placeholder="Order" name="to_do_order"></input>
-                                        <button className="font-bold text-center w-11/12 mx-auto bg-gray-400 rounded-lg text-white">Add</button>
+                                        <button className="w-11/12 button1">Add</button>
                                     </form>
                                 </div>
                             </div>

@@ -2,20 +2,14 @@ import React from 'react';
 import json_cookie from '../routes/auth/cookie';
 // import CSRFToken from '../csrftoken';
 import axios from 'axios';
+import {Link} from 'react-router-dom';
 
 class Profile extends React.Component {
     state={
         isLoading:true,
     };
     getProfile = async () => {
-        let token;
-        if(json_cookie.access_token) token = json_cookie.access_token;
-        const config = {
-            headers:{
-                Authorization:`Token ${token}`
-            }
-        }
-        const { data } = await axios.get(`/backend/users-api/users/${json_cookie.user_id}.json`,config);
+        const { data } = await axios.get(`/backend/users-api/public_users/${json_cookie.user_id}.json`);
         this.setState({ profile: data, isLoading: false});
     }
     componentDidMount() {
@@ -38,7 +32,7 @@ class Profile extends React.Component {
                         <div id="profile_image" style={{backgroundImage:`url("${profile.avatar}")`}} className="w-14 h-14 rounded-3xl bg-cover bg-center"></div>
                         <h3 className="text-lg">{profile.first_name}</h3>
                         <p className="text-sm">{profile.bio}</p>
-                        <button className="rounded bg-gray-400 text-white font-bold p-1 w-1/2 mt-2">Settings</button>
+                        <button className="button1 p-1 w-1/2 mt-2"><Link to={{pathname:`/pinboard/${profile.id}/setttings`}}>Settings</Link></button>
                     </div>
                     <div className="w-full sm:w-1/2 sm:flex-1 flex flex-col justify-center items-center p-3 border m-1">
                         <h1 className="text-xl font-bold">Status</h1>
@@ -64,7 +58,7 @@ class Profile extends React.Component {
                         <div id="profile_image" style={{backgroundImage:`url("${profile.avatar}")`}} className="w-14 h-14 rounded-3xl bg-cover bg-center"></div>
                         <h3 className="text-lg">{profile.first_name}</h3>
                         <p className="text-sm">{profile.bio}</p>
-                        <button className="rounded bg-gray-400 text-white font-bold p-1 w-1/2 mt-2">Add to friends</button>
+                        <button className="rounded bg-gray-400 text-white font-bold p-1 w-1/2 mt-2">Follow</button>
                     </div>
                     <div className="w-full sm:w-1/2 sm:flex-1 flex flex-col justify-center items-center p-3 border m-1">
                         <h1 className="text-xl font-bold">Status</h1>

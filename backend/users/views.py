@@ -91,6 +91,12 @@ class UserViewSet(viewsets.ModelViewSet):
         return JsonResponse(serializer.data)
 
 
+class PublicUserViewSet(viewsets.ReadOnlyModelViewSet):
+
+    queryset = models.User.objects.all().order_by('-date_joined')
+    serializer_class = UserSerializer
+
+
 
 class GroupViewSet(viewsets.ModelViewSet):
     """

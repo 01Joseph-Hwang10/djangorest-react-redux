@@ -29,7 +29,7 @@ function Login(props) {
     };
 
     return (
-        <div className="w-1/2 mx-auto p-3 border border-gray-600 my-5 flex flex-col items-center">
+        <div className="w-11/12 sm:w-1/2 mx-auto p-3 border border-gray-600 my-5 flex flex-col items-center">
             <form className="flex flex-col w-11/12 items-center" id="login" onSubmit={Login}>
                 <CSRFToken />
                 <input id="email_input" className="p-3 rounded-lg border-2 border-gray-400 text-center w-full my-3" required type="email" placeholder="Email"></input>

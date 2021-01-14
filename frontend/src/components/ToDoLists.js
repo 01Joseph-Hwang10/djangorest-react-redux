@@ -10,7 +10,7 @@ class ToDoLists extends React.Component {
         isLoading: true,
     };
     getToDos = async () => {
-        const { data } = await axios.get("/backend/todos-api/todo_container.json");
+        const { data } = await axios.get("/backend/todos-api/public_todo_container.json");
         this.setState({ toDos: data.results, isLoading: false, toDosCount:data.results.length });
     }
     componentDidMount() {
@@ -45,8 +45,15 @@ class ToDoLists extends React.Component {
                 } else {
                     post_data.csrfmiddlewaretoken = false;
                 }
+                let token;
+                if(json_cookie.access_token) token = json_cookie.access_token;
+                const config = {
+                    headers:{
+                        Authorization:`Token ${token}`
+                    }
+                }
                 axios
-                .post('/backend/todos-api/todo_container/',post_data)
+                .post('/backend/todos-api/todo_container/',post_data,config)
                 .then(response => checkResponse(response))
                 .catch(error => console.log(error));
                 
@@ -69,17 +76,24 @@ class ToDoLists extends React.Component {
                     } else {
                         data.csrfmiddlewaretoken = false;
                     }
-                        // const config = {
-                        //     headers: {
-                        //         'Accept': 'application/json',
-                        //         'Content-Type': 'application/json',
-                        //         'X-CSRFToken': csrftoken
-                        //       }
-                        // }
-                        await axios
-                        .patch(`/backend/todos-api/todo_container/${id}.json`,data)
-                        .then(response => checkResponse(response))
-                        .catch(error => console.log(error));
+                    // const config = {
+                    //     headers: {
+                    //         'Accept': 'application/json',
+                    //         'Content-Type': 'application/json',
+                    //         'X-CSRFToken': csrftoken
+                    //       }
+                    // }
+                    let token;
+                    if(json_cookie.access_token) token = json_cookie.access_token;
+                    const config = {
+                        headers:{
+                            Authorization:`Token ${token}`
+                        }
+                    }
+                    await axios
+                    .patch(`/backend/todos-api/todo_container/${id}.json`,data,config)
+                    .then(response => checkResponse(response))
+                    .catch(error => console.log(error));
                     }
                 if(currentState.length < 5) {
                     switchTo(false);
@@ -100,10 +114,10 @@ class ToDoLists extends React.Component {
                         
                         <div className="toDos w-11/12 mt-5 border rounded mx-auto">
                             <div className="toDoDetailHeader w-full border-b-2 border-black flex">
-                                <div className="flex justify-start w-11/12 p-3">
+                                <div className="flex justify-start w-10/12 p-3">
                                     <h1>To-Do</h1>
                                 </div>
-                                <div className="felx justify-center w-1/12 p-3">
+                                <div className="flex justify-center w-2/12 p-3">
                                     <h1>Star</h1>
                                 </div>
                             </div>
@@ -112,7 +126,7 @@ class ToDoLists extends React.Component {
                                     
                                     return (
                                         <div className="flex items-center">
-                                            <div className="w-11/12">
+                                            <div className="w-10/12">
                                                 <Link
                                                     to={{
                                                         pathname: `/detail/${toDo.id}/`,
@@ -134,7 +148,7 @@ class ToDoLists extends React.Component {
                                                     />
                                                 </Link>
                                             </div>
-                                            <div className="w-1/12 flex justify-center border p-3">
+                                            <div className="w-2/12 flex justify-center border p-3">
                                                 <button onClick={updatePartials}>{toDo.todos_important.toString()}</button >
                                             </div>
                                         </div>
@@ -145,11 +159,11 @@ class ToDoLists extends React.Component {
                             <div className="w-full">
                                 <form className="toDoCard border flex items-center w-full" onSubmit={onSubmit}>
                                     <CSRFToken />
-                                    <div className="w-11/12 flex justify-between p-3 border">
-                                        <input placeholder="To-Do Topic" name="todos_name" type="text" className="input1 bg-gray-100 text-left rounded p-1"></input>
-                                        <button className="bg-gray-400 rounded text-white font-bold w-32 p-1">Add</button>
+                                    <div className="w-10/12 flex justify-between p-3 border">
+                                        <input placeholder="To-Do Topic" name="todos_name" type="text" className="input1 w-11/12 bg-gray-100 text-left rounded p-1"></input>
+                                        <button className="button1 w-32 p-1">Add</button>
                                     </div>
-                                    <div className="w-1/12 flex justify-center">
+                                    <div className="w-2/12 flex justify-center">
                                         <input name="todos_important" type="checkbox"></input>
                                     </div>
                                 </form>

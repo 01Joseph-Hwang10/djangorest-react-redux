@@ -1,6 +1,5 @@
 import datetime, json
-from rest_framework import viewsets, generics
-from rest_framework import permissions, viewsets, response
+from rest_framework import viewsets, generics, permissions, viewsets, response
 from django.http import HttpResponse, JsonResponse
 from . import models
 from users import models as user_model
@@ -13,6 +12,7 @@ class ToDoViewSet(viewsets.ModelViewSet):
     """
     queryset = models.ToDo.objects.all()
     serializer_class = ToDoSerializer
+    permission_classes = (permissions.IsAuthenticated,)
 
     # def list(self, request, *args, **kwargs):
     #     queryset = self.filter_queryset(self.get_queryset())
@@ -76,6 +76,12 @@ class ToDoViewSet(viewsets.ModelViewSet):
         except Exception:
             return JsonResponse(code=500, data="Internal Server Error")
 
+class PublicToDoViewSet(viewsets.ReadOnlyModelViewSet):
+
+    queryset = models.ToDo.objects.all()
+    serializer_class = ToDoSerializer
+
+
 
 
 class ToDoContainerViewSet(viewsets.ModelViewSet):
@@ -84,6 +90,7 @@ class ToDoContainerViewSet(viewsets.ModelViewSet):
     """
     queryset = models.ToDoContainer.objects.all().order_by('created')
     serializer_class = ToDoContainerSerializer
+    permission_classes = (permissions.IsAuthenticated,)
 
     def create(self, request):
         try:
@@ -134,3 +141,9 @@ class ToDoContainerViewSet(viewsets.ModelViewSet):
 
     #     serializer = self.get_serializer(queryset, many=True)
     #     return response.Response(serializer.data)
+
+class PublicToDoContainerViewSet(viewsets.ReadOnlyModelViewSet):
+
+    queryset = models.ToDoContainer.objects.all()
+    serializer_class = ToDoContainerSerializer
+

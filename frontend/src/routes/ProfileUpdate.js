@@ -1,8 +1,8 @@
 import React from 'react';
 import axios from 'axios';
-import CSRFToken from '../../csrftoken';
+import CSRFToken from '../csrftoken';
 
-function SignUp(props) {
+function ProfileUpdate(props) {
 
     const checkResponse = (response) => {
         while (!response) {
@@ -13,7 +13,7 @@ function SignUp(props) {
         window.location.href = "/#/login/";
     }   
 
-    const SignUp = (e) => {
+    const UpdateProfile = (e) => {
         e.preventDefault();
         const first_name = document.querySelector("#first_name_input").value;
         const email = document.querySelector("#email_input").value;
@@ -51,17 +51,16 @@ function SignUp(props) {
     };
 
     return (
-        <div className="w-11/12 sm:w-1/2 mx-auto p-3 border border-gray-600 my-5 flex flex-col items-center">
-            <form className="flex flex-col w-11/12 items-center" id="signup" onSubmit={SignUp}>
+        <div className="w-1/2 mx-auto border-2 border-gray-200">
+            <form className="w-11/12" onSubmit={UpdateProfile}>
                 <CSRFToken />
-                <input id="first_name_input" className="p-3 rounded-lg border-2 border-gray-400 text-center w-full my-3" required type="text" placeholder="Name"></input>
-                <input id="email_input" className="p-3 rounded-lg border-2 border-gray-400 text-center w-full my-3" required type="email" placeholder="Email"></input>
-                <input id="password_input" className="p-3 rounded-lg border-2 border-gray-400 text-center w-full my-3" required type="password" placeholder="Password"></input>
-                <input id="password_confirm_input" className="p-3 rounded-lg border-2 border-gray-400 text-center w-full my-3" required type="password" placeholder="Confirm your password"></input>
-                <button className="p-3 rounded-lg bg-gray-400 text-white w-full text-center my-3">Sign Up</button>
+                <input className="input2" placeholder="nickname"></input>
+                <input className="input2" placeholder="bio"></input>
+                <input className="input2" placeholder="avatar"></input>
+                <button className="button1">Submit</button>
             </form>
         </div>
     )
 }
 
-export default SignUp;
+export default ProfileUpdate;

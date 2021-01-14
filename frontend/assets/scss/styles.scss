@@ -8,6 +8,17 @@ input {
     }
 }
 
+.input2 {
+    @apply w-11/12 ml-3 text-gray-400 rounded-lg p-1 bg-white text-left border-2 border-gray-400;
+    &:focus {
+        @apply bg-yellow-100 border-none w-11/12 ml-3 text-gray-400 rounded-lg p-1 bg-white text-left border-2;
+    }
+}
+
+.button1 {
+    @apply font-bold text-center mx-auto bg-gray-400 rounded-lg text-white;
+}
+
 body {
     @apply bg-gray-100;
 }

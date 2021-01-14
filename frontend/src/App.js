@@ -7,6 +7,7 @@ import Login from './routes/auth/LogIn';
 import SignUp from './routes/auth/SignUp';
 import Pinboard from './routes/Pinboard';
 import Footer from './modals/Footer';
+import ProfileUpdate from './routes/ProfileUpdate';
 
 
 function App(props) {
@@ -14,11 +15,12 @@ function App(props) {
     <HashRouter>
       <Navigation />
       <div style={{minHeight:"75vh"}}>
-      <Route path="/login/signup" exact={true} component={SignUp} />
-      <Route path="/login" exact={true} component={Login} />
-      <Route path="/" exact={true} component={Home} />
+      <Route path="/" exact component={Home} />
+      <Route path="/login" exact component={Login} />
+      <Route path="/login/signup" exact component={SignUp} />
       <Route path="/detail/:id" component={Detail} />
-      <Route path="/pinboard/:user_id" component={Pinboard} />
+      <Route path="/pinboard/:user_id" exact component={Pinboard} />
+      <Route path="/pinboard/:user_id/setttings" exaxt component={ProfileUpdate} />
       </div>
       <Footer />
     </HashRouter>
