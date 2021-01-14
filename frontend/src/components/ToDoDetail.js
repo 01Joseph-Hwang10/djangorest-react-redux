@@ -265,11 +265,11 @@ class ToDoDetail extends React.Component {
                             </div>
                             <div className="toDoDetailBody w-full">
                             <div className="toDoDetailHeader w-full border-b-2 border-gray-400 p-3 grid grid-cols-5">
-                                <h1 className="text-center">To-Do</h1>
-                                <h1 className="text-center">Description</h1>
-                                <h1 className="text-center">Completed?</h1>
-                                <h1 className="text-center">Order</h1>
-                                <h1 className="text-center">Manage</h1>
+                                <h1 className="text-xs sm:text-md text-center">To-Do</h1>
+                                <h1 className="text-xs sm:text-md text-center">Description</h1>
+                                <h1 className="text-xs sm:text-md text-center">Completed?</h1>
+                                <h1 className="text-xs sm:text-md text-center">Order</h1>
+                                <h1 className="text-xs sm:text-md text-center">Manage</h1>
                             </div>
                                 {
                                     toDoItems.map(toDoItem => {
@@ -318,10 +318,10 @@ class ToDoDetail extends React.Component {
                                 </div>
                             <div className="toDoDetailBody w-full">
                             <div className="toDoDetailHeader w-full border-b-2 border-gray-400 p-3 grid grid-cols-4">
-                                <h1 className="text-center">To-Do</h1>
-                                <h1 className="text-center">Description</h1>
-                                <h1 className="text-center">Completed?</h1>
-                                <h1 className="text-center">Order</h1>
+                                <h1 className="text-xs sm:text-md text-center">To-Do</h1>
+                                <h1 className="text-xs sm:text-md text-center">Description</h1>
+                                <h1 className="text-xs sm:text-md text-center">Completed?</h1>
+                                <h1 className="text-xs sm:text-md text-center">Order</h1>
                             </div>
                                 {
                                     toDoItems.map(toDoItem => {

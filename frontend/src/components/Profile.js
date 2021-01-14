@@ -10,23 +10,33 @@ class Profile extends React.Component {
         isLoading:true,
     };
     getProfile = async () => {
-        let id;
         if (this.props.pinboard){
-            id=json_cookie.user_id
-        } else {
-            id=window.location.hash.replace(/\D/g,'');
             const { data } = await axios.get(`/backend/users-api/public_users/${json_cookie.user_id}.json`);
-            this.setState({myProfile:data})
+            this.setState({ profile: data, isLoading: false});
+        } else {
+            const id=window.location.hash.replace(/\D/g,'');
+            const data1 = await axios.get(`/backend/users-api/public_users/${json_cookie.user_id}.json`);
+            const myProfile = data1.data;
+            const data2 = await axios.get(`/backend/users-api/public_users/${id}.json`);
+            if (myProfile.following.includes(data2.data.id)){
+                this.setState({ profile: data2.data, isLoading: false,followStatus:"Following",followColor:"#9CA3AF"});
+            } else {
+                this.setState({ profile: data2.data, isLoading: false,followStatus:"Follow",followColor:"#60A5FA"});
+            }
         }
-        const { data } = await axios.get(`/backend/users-api/public_users/${id}.json`);
-        this.setState({ profile: data, isLoading: false});
     }
+    // let isFollowing="Follow";
+    // let followColor= "#60A5FA";
+    // if(profile && myProfile && profile.id in myProfile.following) {
+    //     isFollowing="Following";
+    //     followColor="#9CA3AF";
+    // } 
     componentDidMount() {
         this.getProfile();
     }
     
     render() {
-        const {myProfile,profile,isLoading} = this.state;
+        const {profile,isLoading} = this.state;
 
         if (this.props.pinboard){
             return (<section className="container">
@@ -109,7 +119,7 @@ class Profile extends React.Component {
                     } else {
                         data.data=true;
                         axios
-                        .patch(`/backend/users-api/users/${json_cookie.user_id}`,data,config)
+                        .patch(`/backend/users-api/users/${json_cookie.user_id}/`,data,config)
                         .then(response=>checkResponse(response))
                         .catch(error=>console.log(error));
                         button.innerText = "Follow";
@@ -118,12 +128,6 @@ class Profile extends React.Component {
                 }
             };
 
-            let isFollowing="Follow";
-            let followColor= "#60A5FA";
-            if(profile && myProfile && profile.id in myProfile.following) {
-                isFollowing="Following";
-                followColor="#9CA3AF";
-            } 
 
             return (<section className="container">
                 {isLoading ? (
@@ -138,7 +142,7 @@ class Profile extends React.Component {
                         <h3 className="text-lg">{profile.first_name}</h3>
                         <p className="text-sm">{profile.bio}</p>
                         <CSRFToken />
-                        <button id="switchFollow" className="rounded text-white font-bold p-1 w-1/2 mt-2" style={{backgroundColor:followColor}} onClick={switchFollow}>{isFollowing}</button>
+                        <button id="switchFollow" className="rounded text-white font-bold p-1 w-1/2 mt-2" style={{backgroundColor:this.state.followColor}} onClick={switchFollow}>{this.state.followStatus}</button>
                     </div>
                     <div className="flex flex-col sm:flex-1 w-full sm:w-1/2">
                         <div className="flex flex-col justify-center items-center p-3 border m-1">

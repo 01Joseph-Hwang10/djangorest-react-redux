@@ -12,7 +12,7 @@ Primary Task left:
 0. Pinboard --- Done!!!
 1. To-Do container settings(e.g. delete) --- Done!!
 2. To-Do Important button in detail page --- Done!!
-3. Friends System
+3. Follow System 
 4. Profile --- Done!!!
 4. CSS!!!
 5. Swipable cards

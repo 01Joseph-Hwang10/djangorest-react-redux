@@ -11,14 +11,21 @@ class ToDoLists extends React.Component {
         isLoading: true,
     };
     getToDos = async () => {
-        const { data } = await axios.get("/backend/todos-api/public_todo_container.json");
-        this.setState({ toDos: data.results, isLoading: false});
+        const todo_container_data = await axios.get("/backend/todos-api/public_todo_container.json");
+        if (json_cookie && json_cookie.user_id.length>0){
+            const user_data = await axios.get(`/backend/users-api/public_users/${json_cookie.user_id}`)
+            this.setState({ toDos: todo_container_data.data.results, isLoading: false, profile:user_data.data});
+        } else {
+            this.setState({ toDos: todo_container_data.data.results, isLoading: false});
+        }
     }
     componentDidMount() {
         this.getToDos();
     }
     render() {
+        let profile;
         const { isLoading, toDos } = this.state;
+        if (this.state.profile) profile = this.state.profile;
         const checkResponse = (response) => {
             while (!response) {
                 if (response) {
@@ -183,7 +190,20 @@ class ToDoLists extends React.Component {
             if (toDos && created_by.length > 0) {
                 filteredToDos = toDos.filter(toDo=>toDo.created_by===Number(created_by));
             } else {
-                filteredToDos = toDos;
+                if(profile){
+                    const sortByFollowing = (a,b) => {
+                        if (profile.following.includes(a.created_by) && !profile.following.includes(b.created_by)) {
+                            return -1;
+                        }
+                        if (!profile.following.includes(a.created_by) && profile.following.includes(b.created_by)) {
+                            return 1;
+                        }
+                        return 0;
+                    };
+                    filteredToDos = toDos.sort(sortByFollowing);
+                } else {
+                    filteredToDos = toDos;
+                }
             }
             return (<section className="container">
             {isLoading ? (
@@ -193,14 +213,14 @@ class ToDoLists extends React.Component {
             ) : (
                     <div className="toDos w-11/12 mt-5 border rounded mx-auto">
                         <div className="toDoDetailHeader w-full border-b-2 border-black p-3 flex justify-between">
-                            <div className="w-10/12"><h1>To-Do</h1></div>
-                            <div className="w-2/12 flex justify-center items-center"><h1>Made by</h1></div>
+                            <div className="w-7/12 sm:w-9/12"><h1>To-Do</h1></div>
+                            <div className="w-5/12 sm:w-3/12 flex justify-center items-center"><h1>Made by</h1></div>
                         </div>
                         {
                             filteredToDos.map(toDo => {
                                 return (
                                     <div className="flex items-center border">
-                                        <div className="w-9/12 p-1">
+                                        <div className="w-7/12 sm:w-9/12 p-1">
                                             <Link
                                                 to={{
                                                     pathname: `/detail/${toDo.id}/`,
@@ -222,7 +242,7 @@ class ToDoLists extends React.Component {
                                                 />
                                             </Link>
                                         </div>
-                                        <div className="w-3/12 p-1">
+                                        <div className="w-5/12 sm:w-3/12 p-1">
                                             <Link to={{
                                                 pathname:`/user_profile/${toDo.created_by}`,
                                                 state:{
