@@ -1,10 +1,8 @@
 import React from 'react';
 import axios from 'axios';
-import ToDoCard from './ToDoCard';
-import { Link } from 'react-router-dom';
-import json_cookie from '../routes/auth/cookie';
+import json_cookie from '../mixins/cookie';
 import CSRFToken from '../csrftoken';
-import Avatar from '../modals/Avatar';
+import ToDoContainer from './ToDoContainer';
 
 class ToDoLists extends React.Component {
     state = {
@@ -12,7 +10,7 @@ class ToDoLists extends React.Component {
     };
     getToDos = async () => {
         const todo_container_data = await axios.get("/backend/todos-api/public_todo_container.json");
-        if (json_cookie && json_cookie.user_id.length>0){
+        if (json_cookie && json_cookie.user_id && json_cookie.user_id.length>0){
             const user_data = await axios.get(`/backend/users-api/public_users/${json_cookie.user_id}`)
             this.setState({ toDos: todo_container_data.data.results, isLoading: false, profile:user_data.data});
         } else {
@@ -46,7 +44,7 @@ class ToDoLists extends React.Component {
                 }
                 return 0;
             };
-            filteredToDos = ToDos.sort(sortByImportant);
+            const filteredToDos = ToDos.sort(sortByImportant);
             const onSubmit = (e) => {
                 e.preventDefault();
                 const todos_name = document.getElementsByName("todos_name")[0];
@@ -134,59 +132,41 @@ class ToDoLists extends React.Component {
                     </div>
                 ) : (
                         
-                        <div className="toDos w-11/12 mt-5 border rounded mx-auto">
-                            <div className="toDoDetailHeader w-full border-b-2 border-black flex">
-                                <div className="flex justify-start w-10/12 p-3">
-                                    <h1>To-Do</h1>
-                                </div>
-                                <div className="flex justify-center w-2/12 p-3">
-                                    <h1>Star</h1>
-                                </div>
-                            </div>
+                        <div className="toDos w-11/12 mt-5 mx-auto">
                             {   
                                 filteredToDos.map(toDo => {
                                     
                                     return (
-                                        <div className="flex items-center">
-                                            <div className="w-10/12">
-                                                <Link
-                                                    to={{
-                                                        pathname: `/detail/${toDo.id}/`,
-                                                        state: {
-                                                            key: toDo.id,
-                                                            id: toDo.id,
-                                                            created_by: toDo.created_by,
-                                                            todos_name: toDo.todos_name,
-                                                            todos_important: toDo.todos_important
-                                                        }
-                                                    }}>
-                                                    <ToDoCard
-                                                        key={toDo.id}
-                                                        id={toDo.id}
-                                                        created_username={toDo.created_username}
-                                                        todos_name={toDo.todos_name}
-                                                        todos_important={toDo.todos_important}
-                                                        pinboard={true}
-                                                    />
-                                                </Link>
-                                            </div>
-                                            <div className="w-2/12 flex justify-center border p-3">
-                                                <button onClick={updatePartials}>{toDo.todos_important.toString()}</button >
-                                            </div>
-                                        </div>
+                                        <ToDoContainer 
+                                        id={toDo.id}
+                                        created_by={toDo.created_by}
+                                        created_username={toDo.created_username}
+                                        todos_name={toDo.todos_name}
+                                        todos_important={toDo.todos_important}
+                                        todos_description={toDo.todos_description}
+                                        get_created_by_avatar={toDo.get_created_by_avatar}
+                                        updatePartials={updatePartials}
+                                        get_todo_items={toDo.get_todo_items}
+                                        pinboard={true}
+                                        />
                                         
                                     )
                                 })
                             }
-                            <div className="w-full">
-                                <form className="toDoCard border flex items-center w-full" onSubmit={onSubmit}>
+                            <div className="w-full mt-8">
+                                <form className="toDoCard flex flex-col items-center w-full p-5 border rounded" onSubmit={onSubmit}>
                                     <CSRFToken />
-                                    <div className="w-10/12 flex justify-between p-3 border">
-                                        <input placeholder="To-Do Topic" name="todos_name" type="text" className="input1 w-11/12 bg-gray-100 text-left rounded p-1"></input>
-                                        <button className="button1 w-32 p-1">Add</button>
+                                    <div className="w-full flex justify-between">
+                                        <input placeholder="To-Do Topic" name="todos_name" type="text" className="w-7/12 sm:w-10/12 input1 bg-gray-100 text-left rounded p-1 mx-1"></input>
+                                            <div className="w-5/12 sm:w-2/12 flex justify-center items-center mx-1 bg-gray-100 p-1 rounded">
+                                                <span className="mr-2 text-gray-400">Important?</span><input name="todos_important" type="checkbox"></input>
+                                            </div>
                                     </div>
-                                    <div className="w-2/12 flex justify-center">
-                                        <input name="todos_important" type="checkbox"></input>
+                                    <div className="w-full p-1 mt-2">
+                                        <input placeholder="Description" name="todos_description" type="textarea" className="w-full h-24 input1 bg-gray-100 text-left rounded p-1"></input>
+                                    </div>
+                                    <div className="w-full p-1 mt-2">
+                                        <button className="button1 w-full p-2">Add</button>
                                     </div>
                                 </form>
                             </div>
@@ -221,58 +201,27 @@ class ToDoLists extends React.Component {
                     <span className="loader__text text-2xl text-gray-600 font-bold">Loading...</span>
                 </div>
             ) : (
-                    <div className="toDos w-11/12 mt-5 border rounded mx-auto">
-                        <div className="toDoDetailHeader w-full border-b-2 border-black p-3 flex justify-between">
-                            <div className="w-7/12 sm:w-9/12"><h1>To-Do</h1></div>
-                            <div className="w-5/12 sm:w-3/12 flex justify-center items-center"><h1>Made by</h1></div>
-                        </div>
-                        {
-                            filteredToDos.map(toDo => {
-                                return (
-                                    <div className="flex items-center border">
-                                        <div className="w-7/12 sm:w-9/12 p-1">
-                                            <Link
-                                                to={{
-                                                    pathname: `/detail/${toDo.id}/`,
-                                                    state: {
-                                                        key: toDo.id,
-                                                        id: toDo.id,
-                                                        created_by: toDo.created_by,
-                                                        todos_name: toDo.todos_name,
-                                                        todos_important: toDo.todos_important
-                                                    }
-                                                }}>
-                                                <ToDoCard
-                                                    key={toDo.id}
-                                                    id={toDo.id}
-                                                    created_username={toDo.created_username}
-                                                    todos_name={toDo.todos_name}
-                                                    todos_important={toDo.todos_important}
-                                                    pinboard={false}
-                                                />
-                                            </Link>
-                                        </div>
-                                        <div className="w-5/12 sm:w-3/12 p-1">
-                                            <Link to={{
-                                                pathname:`/user_profile/${toDo.created_by}`,
-                                                state:{
-                                                    created_by:toDo.created_by
-                                                }
-                                                }}>
-                                                <Avatar 
-                                                key={toDo.created_by}
-                                                id={toDo.created_by}
-                                                created_username={toDo.created_username}
-                                                created_by={toDo.created_by}
-                                                get_created_by_avatar={toDo.get_created_by_avatar}
-                                                />
-                                            </Link>
-                                        </div>
-                                    </div>
-                                )
-                            })
-                        }
-                    </div>
+                    <div className="toDos w-11/12 mt-5 mx-auto">
+                    {   
+                        filteredToDos.map(toDo => {
+                            
+                            return (
+                                <ToDoContainer 
+                                id={toDo.id}
+                                created_by={toDo.created_by}
+                                created_username={toDo.created_username}
+                                todos_name={toDo.todos_name}
+                                todos_important={toDo.todos_important}
+                                todos_description={toDo.todos_description}
+                                get_created_by_avatar={toDo.get_created_by_avatar}
+                                get_todo_items={toDo.get_todo_items}
+                                pinboard={false}
+                                />
+                                
+                            )
+                        })
+                    }
+                </div>
                 )
             }
         </section>)

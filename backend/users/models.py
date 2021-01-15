@@ -16,8 +16,9 @@ class User(AbstractUser):
     bio = models.TextField(max_length=200,blank=True,null=True)
     avatar = models.ImageField(blank=True, null=True, upload_to="avatars",default='avatars/person-icon.png')
     following = models.ManyToManyField("users.User", blank=True,related_name="users")
-    user_project_name = models.CharField(max_length=50,blank=True,null=True)
-    user_project_description = models.TextField(blank=True,null=True)
+    user_project_name = models.CharField(max_length=50,default="No Project Name")
+    user_project_description = models.TextField(default="Empty")
+    user_project_tags = models.CharField(null=True,blank=True, max_length=50)
 
 
 
@@ -35,4 +36,5 @@ class User(AbstractUser):
 
     def followers_count(self):
         return self.users.count()
+
 

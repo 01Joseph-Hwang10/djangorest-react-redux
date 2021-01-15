@@ -2,7 +2,7 @@ import React from 'react';
 import axios from 'axios';
 import ToDoItem from './ToDoItem';
 import CSRFToken from '../csrftoken';
-import json_cookie from  '../routes/auth/cookie';
+import json_cookie from  '../mixins/cookie';
 import {Link} from 'react-router-dom';
 
 class ToDoDetail extends React.Component {
@@ -56,6 +56,10 @@ class ToDoDetail extends React.Component {
             // eslint-disable-next-line
             const {isAuthenticated , setIsAuthenticated} = this.props;
             const { isLoading, toDoItems, headElements } = this.state;
+
+            const notAvailable = () => {
+            alert("Currently not available... Sorry :/");
+            }
             
             if (isAuthenticated && headElements && Number(json_cookie.user_id) === headElements.created_by) {
             let id;
@@ -258,7 +262,7 @@ class ToDoDetail extends React.Component {
                                 <button id="toDoSettingsBtn" onClick={switchDisplay}>To-Do Menu</button>
                                     <div id="toDoSettings" className="absolute flex flex-col bg-gray-100 border border-gray-400" style={{display:'none'}}>
                                         <button onClick={deleteToDo} className="block p-3 border-b border-gray-400 text-center">Delete</button>
-                                        <button className="block p-3 text-center">Private</button>
+                                        <button className="block p-3 text-center" onClick={notAvailable}>Private</button>
                                     </div>
                                 </div>
                                 <div><button onClick={updatePartials} id="h5" className="w-full text-center font-semibold text-2xl">{headElements.todos_name}</button></div>

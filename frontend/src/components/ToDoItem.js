@@ -1,7 +1,7 @@
 import axios from 'axios';
 import React from 'react';
 import CSRFToken from '../csrftoken';
-import json_cookie from '../routes/auth/cookie';
+import json_cookie from '../mixins/cookie';
 // import csrftoken from '../csrftoken';
 
 function ToDoItem(props) {

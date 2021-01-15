@@ -1,6 +1,6 @@
 import {useEffect} from 'react';
 import { useState } from 'react';
-import json_cookie from "../routes/auth/cookie";
+import json_cookie from "../mixins/cookie";
 import axios from 'axios';
 
 const useAuth = () => {

@@ -46,7 +46,10 @@ class UserSerializer(HyperlinkedModelSerializer):
                     'following',
                     'following_count',
                     'followers',
-                    'followers_count'
+                    'followers_count',
+                    'user_project_name',
+                    'user_project_description',
+                    'user_project_tags',
                     )
         extra_kwargs = {
             'url': {

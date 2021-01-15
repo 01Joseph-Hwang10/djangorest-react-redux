@@ -1,7 +1,7 @@
 import React from 'react';
 import axios from 'axios';
 import CSRFToken from '../../csrftoken';
-import json_cookie from './cookie';
+import json_cookie from '../../mixins/cookie';
 
 function SignUp(props) {
 

@@ -2,7 +2,7 @@ import React from "react";
 import Profile from "../components/Profile";
 import ToDoLists from '../components/ToDoLists';
 import useAuth from "../hooks/useAuth";
-import json_cookie from "./auth/cookie";
+import json_cookie from "../mixins/cookie";
 
 function Pinboard() {
     const {isAuthenticated,setIsAuthenticated} = useAuth();

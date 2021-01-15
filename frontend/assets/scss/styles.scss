@@ -16,7 +16,7 @@ input {
 }
 
 .button1 {
-    @apply font-bold text-center mx-auto bg-gray-400 rounded-lg text-white;
+    @apply font-bold text-center mx-auto bg-gray-400 rounded-lg text-white shadow-sm;
 }
 
 body {

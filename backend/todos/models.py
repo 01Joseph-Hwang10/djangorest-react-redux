@@ -12,8 +12,7 @@ class ToDoContainer(TimeStampedModel):
         user_model.User, on_delete=models.CASCADE, related_name="todo_container")
     todos_name = models.CharField(max_length=50)
     todos_important = models.BooleanField(default=False)
-    todos_description = models.TextField(blank=True,null=True)
-    contributors = models.ManyToManyField(user_model.User,blank=True, related_name="todo_container")
+    todos_description = models.TextField(blank=True,null=True,default="No description")
 
     def get_created_by_avatar(self):
         return self.created_by.avatar

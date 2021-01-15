@@ -23,6 +23,7 @@ class ToDoContainerSerializer(HyperlinkedModelSerializer):
             'todos_important',
             'todos_items_count',
             'get_todo_items',
+            'todos_description',
         )
         extra_kwargs = {
             'url': {
