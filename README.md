@@ -14,10 +14,9 @@ Primary Task left:
 2. To-Do Important button in detail page --- Done!!
 3. Follow System --- Done!!!
 4. Profile --- Done!!!
-5. Get My Important Task
-6. CSS (To-Do detail description, To-Do Items Card, To-Do Detail, To-Do Container)
-7. Swipable cards
-8. Draggable ToDos
+5. CSS (To-Do detail description, To-Do Items Card, To-Do Detail, To-Do Container)
+6. Swipable cards
+7. Draggable ToDos
 
 Secondary Task left:
 

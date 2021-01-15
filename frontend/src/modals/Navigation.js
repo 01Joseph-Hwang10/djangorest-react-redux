@@ -41,7 +41,7 @@ function Navigation(props) {
         return (
         <div className="flex flex-wrap justify-between items-center w-full p-3 border-b-2 border-black">
             <div className="w-5/12 mx-3 flex justify-start items-center">
-                <Link to='/'><span>T&S</span></Link>
+                <Link to='/home'><span>T&S</span></Link>
                 <input placeholder="Search..." className="input2 ml-3"></input>
             </div>
             <div className="w-5/12 flex mr-3 justify-end items-center">
@@ -67,7 +67,7 @@ function Navigation(props) {
         return (
             <div className="flex flex-wrap justify-between w-full p-3 border-b-2 border-black">
                 <div className="w-5/12 mx-3 flex justify-start items-center">
-                    <Link to='/'><span>T&S</span></Link>
+                    <Link to='/home'><span>T&S</span></Link>
                     <input placeholder="Search..." className="input2 ml-3"></input>
                 </div>
                 <div className="w-5/12 mr-3 flex justify-end items-center"><Link to='/login'><span>Log in</span></Link></div>

@@ -9,20 +9,22 @@ import Pinboard from './routes/Pinboard';
 import Footer from './modals/Footer';
 import ProfileUpdate from './routes/ProfileUpdate';
 import UserProfile from './routes/UserProfile';
+import Enter from './routes/Enter';
 
 
 function App(props) {
   return (
     <HashRouter>
+      <Route path="/" exact component={Enter} />
       <Navigation />
       <div style={{minHeight:"75vh"}}>
-      <Route path="/" exact component={Home} />
-      <Route path="/login" exact component={Login} />
-      <Route path="/login/signup" exact component={SignUp} />
-      <Route path="/detail/:id" component={Detail} />
-      <Route path="/pinboard/:user_id" exact component={Pinboard} />
-      <Route path="/user_profile/:user_id" exact component={UserProfile} />
-      <Route path="/pinboard/:user_id/setttings" exaxt component={ProfileUpdate} />
+        <Route path="/home" exact component={Home} />
+        <Route path="/login" exact component={Login} />
+        <Route path="/login/signup" exact component={SignUp} />
+        <Route path="/detail/:id" exact component={Detail} />
+        <Route path="/pinboard/:user_id" exact component={Pinboard} />
+        <Route path="/user_profile/:user_id" exact component={UserProfile} />
+        <Route path="/pinboard/:user_id/setttings" exaxt component={ProfileUpdate} />
       </div>
       <Footer />
     </HashRouter>

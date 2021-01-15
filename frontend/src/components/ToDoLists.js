@@ -36,7 +36,17 @@ class ToDoLists extends React.Component {
         }
         if (this.props.pinboard && toDos && this.props.isAuthenticated && json_cookie.user_id) {
             const user_id = json_cookie.user_id;
-            const filteredToDos = toDos.filter(toDo=>toDo.created_by===Number(user_id));
+            const ToDos = toDos.filter(toDo=>toDo.created_by===Number(user_id));
+            const sortByImportant = (a,b) => {
+                if (a.todos_important && !b.todos_important) {
+                    return -1;
+                }
+                if (!a.todos_important && b.todos_important) {
+                    return 1;
+                }
+                return 0;
+            };
+            filteredToDos = ToDos.sort(sortByImportant);
             const onSubmit = (e) => {
                 e.preventDefault();
                 const todos_name = document.getElementsByName("todos_name")[0];
