@@ -45,7 +45,7 @@ function Navigation(props) {
     if (isAuthenticated) {
 
         return (
-        <div className="fixed top-0 flex flex-wrap justify-between items-center w-full p-3 border-b-2 border-blue-50 shadow-lg bg-gray-200">
+        <div className="fixed z-50 top-0 flex flex-wrap justify-between items-center w-full p-3 border-b-2 border-blue-50 shadow-lg bg-gray-200">
             <div className="w-5/12 mx-3 flex justify-start items-center font-bold">
                 <Link to='/home'>
                     <span className="text-blue-600">T</span>
@@ -75,7 +75,7 @@ function Navigation(props) {
         )
     } else {
         return (
-            <div className="fixed top-0 flex flex-wrap justify-between items-center w-full p-3 border-b-2 border-blue-50 shadow-lg bg-gray-200">
+            <div className="fixed z-50 top-0 flex flex-wrap justify-between items-center w-full p-3 border-b-2 border-blue-50 shadow-lg bg-gray-200">
                 <div className="w-5/12 mx-3 flex justify-start items-center">
                     <Link to='/home'><span className="font-bold">T&S</span></Link>
                     <input placeholder="Search..." className="input2 ml-3"></input>

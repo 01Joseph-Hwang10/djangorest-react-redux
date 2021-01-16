@@ -14,12 +14,13 @@ Primary Task left:
 2. To-Do Important button in detail page --- Done!!
 3. Follow System --- Done!!!
 4. Profile --- Done!!!
-5. CSS (To-Do detail description, To-Do Items Card, To-Do Detail, To-Do Container)
-6. Swipable cards
+5. CSS (To-Do detail description, To-Do Items Card, To-Do Container) --- Done!!!
+6. Swipable cards --- Done!!!
 7. Draggable ToDos
 
 Secondary Task left:
 
+0. Migrate ToDoDetail page's function to pinboard
 1. To-Do Detail
 2. Social Detail
 3. Status More
