@@ -19,6 +19,12 @@ input {
     @apply font-bold text-center mx-auto bg-gray-400 rounded-lg text-white shadow-sm;
 }
 
+button {
+    &:focus {
+        @apply border-none;
+    }
+}
+
 body {
     @apply bg-gray-100;
 }

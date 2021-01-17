@@ -1,4 +1,4 @@
-import datetime
+import datetime, json
 from django.contrib.auth.models import Group
 from django.core.serializers.json import DjangoJSONEncoder
 from django.http import JsonResponse
@@ -110,6 +110,7 @@ class UserViewSet(viewsets.ModelViewSet):
         except Exception:
             kwargs['partial'] = True
             return self.update(request, *args, **kwargs)
+
 
 
 class PublicUserViewSet(viewsets.ReadOnlyModelViewSet):

@@ -24,25 +24,25 @@ function ProfileUpdate(props) {
             const avatar = document.querySelector("#avatar_input");
             const csrftoken = document.getElementsByName("csrfmiddlewaretoken")[0];
             if (json_cookie || json_cookie.user_id || json_cookie.access_token) {
-                let post_data = {
-                    first_name:first_name.value
-                };
-                if(bio.value) post_data.bio = bio.value;
-                if (avatar.value) post_data.avatar = avatar.value;
+                const formData = new FormData();
+                formData.append('first_name',first_name.value);
+                if(bio.value) formData.append('bio',bio.value);
+                if (avatar.value) formData.append('avatar',avatar.files[0]);
                 if(csrftoken.value) {
-                    post_data.csrfmiddlewaretoken = csrftoken.value;
+                    formData.append('csrfmiddlewaretoken',csrftoken);
                 } else {
-                    post_data.csrfmiddlewaretoken = false;
+                    formData.append('csrfmiddlewaretoken',"None");
                 }
                 let token;
                 if(json_cookie.access_token) token = json_cookie.access_token;
                 const config = {
                     headers:{
-                        Authorization:`Token ${token}`
+                        Authorization:`Token ${token}`,
+                        'Content-Type':'multipart/form-data'
                     }
                 }   
                 axios
-                .patch(`/backend/users-api/users/${json_cookie.user_id}/`,post_data,config)
+                .patch(`/backend/users-api/users/${json_cookie.user_id}/`,formData,config)
                 .then(response => {
                     checkResponse(response);
                 })

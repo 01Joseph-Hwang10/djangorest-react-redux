@@ -10,7 +10,7 @@ function ToDoCard(props) {
             <div className="p-2 h-32 lg:h-48 w-52 lg:w-64 shadow-md bg-pink-200 rounded-lg pt-0">
                 <div className="flex justify-center items-center h-1/6 pt-0 mt-0">
                     <div className="w-3/12"><button className="text-left" onClick={notAvailable}>Del</button></div>
-                    <div className="w-6/12 md:-mt-1 lg:-mt-2 bg-pink-400 border border-pink-500 flex justify-center rounded rounded-t-none"><span className="text-center text-gray-700">|||</span></div>
+                    <button className="w-6/12 sm:-mt-1 md:-mt-2 lg:-mt-3 bg-pink-400 border border-pink-500 flex justify-center rounded rounded-t-none"><span className="text-center text-gray-700">|||</span></button>
                     <div className="w-3/12"></div>
                 </div>
                 <div className="flex justify-center h-5/6">
@@ -33,7 +33,7 @@ function ToDoCard(props) {
     } else {
         return (
             <div className="bg-pink-300 rounded-lg shadow-md w-full flex justify-center items-center">
-                <div className="bg-pink-400 rounded-l-lg h-full w-1/12">-<br></br>-<br></br>-</div>
+                <button className="bg-pink-400 rounded-l-lg h-full w-1/12">-<br></br>-<br></br>-</button>
                 <div className="w-6/12 p-2"><span className="text-2xl">{props.to_do_name}</span></div>
                 <div className="flex justify-center w-5/12 mr-2">
                     <div className="flex justify-center items-center mx-1 font-bold text-gray-600 bg-blue-400 rounded-3xl w-10 h-10">I</div>
